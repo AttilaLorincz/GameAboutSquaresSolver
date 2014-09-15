@@ -30,12 +30,26 @@
             circles=[ {location=(-2,0); color=Black}; {location=(-1,0); color=Red};{location=(1,0); color=Blue}]; 
             squares=[ {location=(0,2); color=Black; direction=Up}; {location=(0,-2); color=Red; direction=Down};{location=(2,0); color=Blue; direction=Left};];
         }
- 
+
+    let level11 = 
+        { startState with
+            triangles = [{location=(2,0); direction=Down}]; 
+            circles=[ {location=(1,2); color=Red}; {location=(2,2); color=Blue};{location=(3,2); color=Black}]; 
+            squares=[ {location=(0,0); color=Red; direction=Right}; {location=(4,0); color=Blue; direction=Left};{location=(2,4); color=Black; direction=Up};];
+        } 
 
     let level14 =  
         { startState with
             circles=[ {location=(0,0); color=Red}; {location=(1,1); color=Blue};{location=(2,0); color=Orange}; {location=(2,2); color=Black}] 
             squares=[ {location=(1,0); color=Black; direction=Down}; {location=(0,1); color=Orange; direction=Right};{location=(2,1); color=Red; direction=Left};{location=(1,2); color=Blue; direction=Up}];
+        }
+ 
+ 
+    let level15 =  
+        { startState with
+            triangles = [{location=(0,0); direction=Down}; {location=(3,0); direction=Left}; {location=(0,1); direction=Right}]; 
+            circles=[ {location=(1,1); color=Red}; {location=(1,2); color=Blue} ] 
+            squares=[ {location=(0,0); color=Red; direction=Down}; {location=(2,2); color=Blue; direction=Up}];
         }
  
     
@@ -58,7 +72,9 @@
         match n with
             |1 -> level1
             |10 -> level10
+            |11 -> level11
             |14 -> level14
+            |15 -> level15
             |17 -> level17
             |33 -> level33
             |_-> failwith "Unknown level"
