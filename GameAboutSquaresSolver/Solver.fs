@@ -1,5 +1,6 @@
 ﻿module GameAboutSquares.Solver
     open System
+    open System.Threading
     // 0,0   1,0  Coordinate system
     // 0,1   1,1
     type Direction =
@@ -20,8 +21,8 @@
     type GameState = {squares: List<Square>; triangles: Triangle list; circles: Circle list; stepsTakenRev: Color list}
     
     // todo: switch to concurrent collection
-    type MutableQueue = System.Collections.Generic.Queue<GameState>
-    //type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
+    //type MutableQueue = System.Collections.Generic.Queue<GameState>
+    type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
     type MutableSet = System.Collections.Generic.List<GameState>
     //type MutableSet = System.Collections.Concurrent.ConcurrentQueue<GameState>
     
@@ -111,6 +112,7 @@
                 List.tryFind ( fun sq->
                     match sq.location with 
                         |(x, y) when x > maxx + n-1 || x < minx - n+1 || y > maxy + n-1 || y < miny - n+1 -> true
+                        //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
                         |_ ->false
                  )
         outOfBoundsSquare.IsNone
@@ -119,16 +121,16 @@
         gameStates 
         |> Seq.filter insideBounds
 
-    let isVisited ( gameState: GameState) (visited:MutableSet)  =
-        let v = visited.FindIndex( fun s -> areStatesEqual gameState s ) 
+    let isVisited (gameState: GameState) (visited:MutableSet)  =
+        let v = visited.FindIndex( fun s -> areStatesEqual gameState s )
         v > -1
 
     let rec solveRec (queue:MutableQueue) (visited:MutableSet) (maxDepth:int): Color list option =   
         if queue.Count =  0 then None
         else 
-            //let (b, gameState) = queue.TryDequeue()
-            //if not(b) then failwith "TryDequeue failed"  
-            let gameState = queue.Dequeue()
+            let (b, gameState) = queue.TryDequeue()
+            if not(b) then failwith "TryDequeue failed"  
+            //let gameState = queue.Dequeue()
             if not(isVisited gameState visited) then
                 visited.Add(gameState)
                 
@@ -139,12 +141,21 @@
                     for s in  prune(subsequentGameStates gameState) do
                         queue.Enqueue(s)
                 solveRec queue visited maxDepth
+ 
+    let solve (gameState:GameState) (maxDepth:int) : Color list option =
+        let queue = MutableQueue()
+        let visited = MutableSet()
+        queue.Enqueue(gameState)
+        Async.Start( async {
+            while true do
+                let (b, head) = queue.TryPeek()                
+                if b then
+                    printfn "%A - Length of queue %A move %A" DateTime.Now queue.Count head.stepsTakenRev.Length
+                Thread.Sleep(1000)
+        })
 
-    let solve(gameState:GameState)(maxDepth:int): Color list option =
-        let mutable q = MutableQueue()
-        let mutable v = MutableSet()
-        q.Enqueue(gameState)
-        match solveRec q v maxDepth with
+        let asyncSolver = async { return solveRec queue visited maxDepth } 
+        match  asyncSolver |> Async.RunSynchronously with
            | None -> None
            | Some list -> Some (List.rev list)
   
