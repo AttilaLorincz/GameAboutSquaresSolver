@@ -76,12 +76,12 @@
                 |Some _-> moves otherSquare.Value direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
                 |None -> nextSquares
 
-        let moveSq = gameState.squares |> List.find(fun s -> s.color = color)
+        let squareToMove = gameState.squares |> List.find(fun s -> s.color = color)
         {
             GameState.circles = gameState.circles;
             triangles = gameState.triangles;        
             stepsTakenRev = color :: gameState.stepsTakenRev;
-            squares = moves moveSq moveSq.direction gameState;
+            squares = moves squareToMove squareToMove.direction gameState;
         } 
 
     let subsequentGameStates gameState : GameState seq =
