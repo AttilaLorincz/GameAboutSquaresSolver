@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="Game.fs" />
     <Compile Include="Solver.fs" />
     <Compile Include="Levels.fs" />
     <Compile Include="program.fs" />

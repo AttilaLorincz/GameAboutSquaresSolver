@@ -1,4 +1,5 @@
 ﻿module GameAboutSqares.Program
+    open GameAboutSquares.Game
     open GameAboutSquares.Solver
     open GameAboutSquares.Levels
     open System

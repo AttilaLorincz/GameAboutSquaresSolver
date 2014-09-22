@@ -1,5 +1,5 @@
 ﻿module GameAboutSquares.Levels
-    open GameAboutSquares.Solver
+    open GameAboutSquares.Game
     let startState = {triangles=[]; circles=[]; squares = []; stepsTakenRev=[]}
     
     let level0 = // Min 2
@@ -28,8 +28,8 @@
 
     let level4 = // Min 5
         { startState with
-            circles=[{location=(0,0); color=Red}; {location=(1,1); color=Black}; {location=(2,2); color=Blue}] 
-            squares=[{location=(-1,0); color=Blue; direction=Right}; {location=(0,-1); color=Red; direction=Down}; {location=(1,0); color=Black; direction=Down}];
+            circles= [{location=(0,0); color=Red}; {location=(1,1); color=Black}; {location=(2,2); color=Blue}] 
+            squares= [{location=(-1,0); color=Blue; direction=Right}; {location=(0,-1); color=Red; direction=Down}; {location=(1,0); color=Black; direction=Down}];
         }
 
     let level5 = // Min 5
