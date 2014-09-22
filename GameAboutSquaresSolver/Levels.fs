@@ -8,7 +8,7 @@
             squares= [{location=(0,0); color=Red; direction=Down}]
         }
 
-    let level1 =  // Min 2
+    let level1 = // Min 2
         { startState with
             circles= [{location=(0,2); color=Red}; {location=(0,1); color=Blue}] 
             squares= [{location=(0,0); color=Blue; direction=Down}; {location=(0,3); color=Red; direction=Up}];
@@ -99,7 +99,7 @@
             squares= [{location=(1,0); color=Black; direction=Down}; {location=(0,1); color=Orange; direction=Right};{location=(2,1); color=Red; direction=Left};{location=(1,2); color=Blue; direction=Up}];
         }
  
-    let level15 =  // Min 13
+    let level15 = // Min 13
         { startState with
             triangles= [{location=(0,0); direction=Down}; {location=(3,0); direction=Left}; {location=(0,1); direction=Right}]; 
             circles=   [{location=(1,1); color=Red}; {location=(1,2); color=Blue} ] 
@@ -111,13 +111,51 @@
             triangles= [{location=(0,0); direction=Right}; {location=(2,0); direction=Down}; {location=(2,1); direction=Left}; {location=(1,2); direction=Up}]; 
             circles=   [{location=(0,1); color=Red}; {location=(3,1); color=Blue} ] 
             squares=   [{location=(0,0); color=Red; direction=Right}; {location=(2,1); color=Blue; direction=Left}];
-        }   
+        }
+
     let level17 =  // Min 20
         { startState with
             triangles= [{location=(0,0); direction=Down};{location=(0,1); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
             circles=   [{location=(1,1); color=Red}; {location=(2,1); color=Black};{location=(3,1); color=Blue}] 
             squares=   [{location=(0,0); color=Red; direction=Down}; {location=(0,1); color=Black; direction=Right};{location=(3,0); color=Blue; direction=Left}];
         }
+
+    let level18 = // Min 21 
+        { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(0,1); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
+            circles=   [{location=(1,1); color=Red}; {location=(2,1); color=Black};{location=(3,1); color=Blue}] 
+            squares=   [{location=(0,0); color=Black; direction=Down}; {location=(0,1); color=Red; direction=Right};{location=(0,3); color=Blue; direction=Left}];
+        }
+
+    let level19 = // Min 43
+        None
+
+    let level20 = // Min 38
+        None
+
+    let level21 = // Min 42
+        None
+
+    let level22 = // Min 17
+        None
+
+    let level23 = // Min 17
+        None
+
+    let level24 = // Min 23
+        None
+
+    let level25 = // Min 24
+        None
+
+    let level26 = // Min 24
+        None
+
+    let level27 = // Min 28
+        None
+
+    let level28 = // Min 18
+        None
 
     let level29 = // Min 22
         { startState with
@@ -126,12 +164,27 @@
             squares=   [{location=(-2,0); color=Red; direction=Right}; {location=(0,-2); color=Blue; direction=Down}; {location=(2,0); color=Black; direction=Left}; {location=(0,2); color=Orange; direction=Up}];
         }
 
+    let level30 = // Min 41
+        None
+
+    let level31 = // Min 21
+        None
+
+    let level32 = // Min 33
+        None
+
     let level33 = // Min 45
         { startState with
             triangles= [{location=(0,0); direction=Down};{location=(0,2); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
             circles=   [{location=(-1,-1); color=Blue}; {location=(0,-1); color=Red};{location=(1,-1); color=Black}] 
             squares=   [{location=(0,0); color=Blue; direction=Down}; {location=(0,2); color=Black; direction=Right};{location=(2,2); color=Red; direction=Up}];
         }
+
+    let level34 = // Min 33
+        None
+
+    let level35 = // Min 39
+        None
 
     let level n = 
         match n with
@@ -153,5 +206,23 @@
             |15 -> level15
             |16 -> level16
             |17 -> level17
+            |18 -> level18
+//            |19 -> level19
+//            |20 -> level20
+//            |21 -> level21
+//            |22 -> level22
+//            |23 -> level23
+//            |24 -> level24
+//            |25 -> level25
+//            |26 -> level26
+//            |27 -> level27
+//            |28 -> level28
+            |29 -> level29
+//            |30 -> level30
+//            |31 -> level31
+//            |32 -> level32
             |33 -> level33
+//            |34 -> level34
+//            |35 -> level35
+
             |_-> failwith "Unknown level"
