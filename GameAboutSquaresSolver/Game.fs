@@ -2,13 +2,13 @@
     open System
     open System.Threading
     open Microsoft.FSharp.Quotations
-    //     ... ... ...
-    //    +---+---+---+
-    //... -1,0|0,0|2,0| ...
-    //    +---+---+---+
-    //... -1,0|0,1|2,1| ...
-    //    +---+---+---+
-    //     ... ... ...
+    //    ... ... ...
+    //   +---+---+---+
+    // ..-1,0|0,0|2,0|..
+    //   +---+---+---+
+    // ..-1,0|0,1|2,1|..
+    //   +---+---+---+
+    //    ... ... ... 
     type Direction =
         | Up
         | Down
@@ -44,39 +44,38 @@
                 (gameState.squares (*|> List.sortWith compareSquareColors  *) |> List.map (fun x->x.location))
                 (gameState.circles (*|> List.sortWith compareCircleColors  *) |> List.map (fun x->x.location))
 
-    let areStatesEqual (gameState1)(gameState2):bool=
+    let areStatesEqual (gameState1)(gameState2) :bool=
             compareSequences                               
                 (gameState1.squares |> List.map (fun x->x.location))  
                 (gameState2.squares |> List.map (fun x->x.location))
 
-    let moveSquare(square:Square)(direction:Direction): Square = {   
-            direction=square.direction; 
-            color=square.color; 
-            location= match square.location with 
-                        (x,y) -> match direction with
-                                 |Up ->   (x,y-1)
-                                 |Down -> (x,y+1)
-                                 |Left -> (x-1,y)
-                                 |Right ->(x+1,y);
-        }
+    let makeMoves (gameState : GameState)(color : Color) : GameState = 
+        let rec moves (moveSq : Square)(direction : Direction) (gameState : GameState) =
+            let moveSquare (square:Square)(direction:Direction) : Square = {   
+                direction=square.direction; 
+                color=square.color; 
+                location= match square.location with 
+                            (x,y) -> match direction with
+                                        |Up ->   (x,y-1)
+                                        |Down -> (x,y+1)
+                                        |Left -> (x-1,y)
+                                        |Right ->(x+1,y);
+            }
+            let orientSquare(triangles:Triangle seq)(square:Square) : Square =
+                match triangles |> Seq.tryFind (fun t -> t.location = square.location) with
+                |None -> square
+                |Some t -> {location=square.location; direction=t.direction; color=square.color;}
 
-    let orientSquare(triangles:Triangle seq)(square:Square) : Square =
-        match triangles |> Seq.tryFind (fun t -> t.location = square.location) with
-        |None -> square
-        |Some t -> {location=square.location; direction=t.direction; color=square.color;}
+            let movedSquare = moveSquare moveSq direction |> orientSquare gameState.triangles 
+            let nextSquares = gameState.squares 
+                            |> List.map (
+                                fun sq -> if sq=moveSq then movedSquare else sq
+                            )
+            let otherSquare = nextSquares |> List.tryFind(fun other -> (not(movedSquare.color = other.color) && other.location = movedSquare.location))
+            match otherSquare with
+                |Some _-> moves otherSquare.Value direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
+                |None -> nextSquares
 
-    let rec moves (moveSq : Square)(direction : Direction) (gameState : GameState) =
-        let movedSquare = moveSquare moveSq direction |> orientSquare gameState.triangles 
-        let nextSquares = gameState.squares 
-                        |> List.map (
-                            fun sq -> if sq=moveSq then movedSquare else sq
-                        )
-        let otherSquare = nextSquares |> List.tryFind(fun other -> (not(movedSquare.color = other.color) && other.location = movedSquare.location))
-        match otherSquare with
-            |Some _-> moves otherSquare.Value direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
-            |None -> nextSquares
-
-    let makeMoves(gameState : GameState)(color : Color) : GameState = 
         let moveSq = gameState.squares |> List.find(fun s -> s.color = color)
         {
             GameState.circles = gameState.circles;
@@ -90,7 +89,7 @@
                     stepsTakenRev = moveSq.color :: gameState.stepsTakenRev 
                     triangles  = gameState.triangles; 
                     circles    = gameState.circles;
-                    squares    = moves moveSq moveSq.direction gameState;
+                    squares    = (makeMoves gameState moveSq.color).squares // moves moveSq moveSq.direction gameState;
                }
         }
  
