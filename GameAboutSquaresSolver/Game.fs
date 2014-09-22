@@ -2,6 +2,7 @@
     open System
     open System.Threading
     open Microsoft.FSharp.Quotations
+
     //    ... ... ...
     //   +---+---+---+
     // ..-1,0|0,0|2,0|..
@@ -9,6 +10,7 @@
     // ..-1,0|0,1|2,1|..
     //   +---+---+---+
     //    ... ... ... 
+
     type Direction =
         | Up
         | Down
@@ -24,8 +26,10 @@
     type Square =    {location: Location; color:Color; direction: Direction}
     type Circle =    {location: Location; color:Color}
     type Triangle =  {location: Location; direction:Direction}
+    
     type GameState = {squares: List<Square>; triangles: Triangle list; circles: Circle list; stepsTakenRev: Color list}
     
+
     let compareSequences s1 s2 = (s1, s2) ||> Seq.forall2 (=)
 
     let compareColors(c1:Color)(c2:Color) : int =
@@ -43,11 +47,6 @@
             compareSequences                               
                 (gameState.squares (*|> List.sortWith compareSquareColors  *) |> List.map (fun x->x.location))
                 (gameState.circles (*|> List.sortWith compareCircleColors  *) |> List.map (fun x->x.location))
-
-    let areStatesEqual (gameState1)(gameState2) :bool=
-            compareSequences                               
-                (gameState1.squares |> List.map (fun x->x.location))  
-                (gameState2.squares |> List.map (fun x->x.location))
 
     let makeMoves (gameState : GameState)(color : Color) : GameState = 
         let rec moves (moveSq : Square)(direction : Direction) (gameState : GameState) =
