@@ -10,27 +10,12 @@
     type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<List<Square>, unit>
     
     module Globals = let map = System.Collections.Generic.Dictionary<_,_>()
-    let locations = lazy ( 
-            let (b,startState) = Globals.map.TryGetValue("startState")
-            List.append 
-                (startState.triangles |> List.map (fun x->x.location))
-                (startState.circles   |> List.map (fun x->x.location))
-    )
-    
-    let locationsIncludingSquares  = lazy ( 
-            let (b,startState) = Globals.map.TryGetValue("startState")
-            List.append 
-                (locations.Value)
-                (startState.squares |> List.map (fun sq->sq.location))
-    )
 
-    let boundsOf (loclist: Lazy<Location list>) = 
-        loclist.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
+    let allSquaresInsideBounds gameState locations =
+        let boundsOf (loclist: Lazy<Location list>) = 
+            loclist.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (Int32.MaxValue, Int32.MaxValue, Int32.MinValue, Int32.MinValue)
-     
-    
-    let insideBounds(gameState: GameState): bool = 
         match (boundsOf locations) with
         | (minx, miny, maxx, maxy) ->
             let n = gameState.squares.Length
@@ -42,30 +27,29 @@
                             |(x, y) when x > maxx + n-1 || x < minx - n+1 || y > maxy + n-1 || y < miny - n+1 -> true
                             //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
                             |_ ->false
-                     )
+                        )
             outOfBoundsSquare.IsNone
+
+    let insideBounds(gameState: GameState): bool = 
+        let locationsOfTrianglesAndCircles = lazy ( 
+            let (b,startState) = Globals.map.TryGetValue("startState")
+            List.append 
+                (startState.triangles |> List.map (fun x->x.location))
+                (startState.circles   |> List.map (fun x->x.location))
+        )
+        allSquaresInsideBounds gameState locationsOfTrianglesAndCircles
 
     let insideBoundsIncludingSquares(gameState: GameState): bool = 
-        match (boundsOf locationsIncludingSquares) with
-        | (minx, miny, maxx, maxy) ->
-            let n = gameState.squares.Length
-            //let n = 1         
-            let outOfBoundsSquare = 
-                gameState.squares  |>
-                    List.tryFind ( fun sq->
-                        match sq.location with 
-                            |(x, y) when x > maxx + n-1 || x < minx - n+1 || y > maxy + n-1 || y < miny - n+1 -> true
-                            //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
-                            |_ ->false
-                     )
-            outOfBoundsSquare.IsNone
+        let locationsOfTrianglesAndCirclesAndSquares  = lazy ( 
+            let (b,startState) = Globals.map.TryGetValue("startState")
+            List.append 
+                (List.append 
+                    (startState.triangles |> List.map (fun x->x.location))
+                    (startState.circles   |> List.map (fun x->x.location)))
+                (startState.squares |> List.map (fun sq->sq.location))
+        )
+        allSquaresInsideBounds gameState locationsOfTrianglesAndCirclesAndSquares
 
-//
-//    let isVisited (visited:MutableSet) (gameState: GameState)  =
-//        //let v = visited.FindIndex( fun s -> areStatesEqual gameState s )
-//        //v > -1
-//        visited.ContainsKey(gameState)
-//    
     let notVisited (visited:MutableSet) (gameState: GameState)  =
         not(visited.ContainsKey(gameState.squares))
 
@@ -105,8 +89,7 @@
         let cancellationSource = new CancellationTokenSource() 
         let monitor = Async.StartAsTask( async {
             while true do
-                System.Console.WriteLine(DateTime.Now.ToString() + " " + visited.Count.ToString()) 
-               
+                System.Console.WriteLine(DateTime.Now.ToString() + " " + visited.Count.ToString())               
                 // printf "%A - " DateTime.Now
                 //let (b, head) = queue.TryPeek()                
                 //if b then
@@ -125,6 +108,5 @@
         //for i in 1..2 do 
         let task = Async.StartAsTask(computation = worker, cancellationToken = cancellationSource.Token)
         task.Wait()
-        //monitor.Wait();
         task.Result
       
