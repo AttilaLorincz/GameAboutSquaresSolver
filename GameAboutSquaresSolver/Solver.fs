@@ -9,7 +9,9 @@
     //type MutableSet = System.Collections.Generic.List<GameState>
     type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<List<Square>, unit>
     
-    module Globals = let map = System.Collections.Generic.Dictionary<_,_>()
+    module Globals = 
+        let states = System.Collections.Generic.Dictionary<string,GameState>()
+        let solutions = System.Collections.Generic.Dictionary<string,Color list option>()
 
     let allSquaresInsideBounds gameState locations =
         let boundsOf (loclist: Lazy<Location list>) = 
@@ -32,7 +34,7 @@
 
     let insideBounds(gameState: GameState): bool = 
         let locationsOfTrianglesAndCircles = lazy ( 
-            let (b,startState) = Globals.map.TryGetValue("startState")
+            let (b,startState) = Globals.states.TryGetValue("startState")
             List.append 
                 (startState.triangles |> List.map (fun x->x.location))
                 (startState.circles   |> List.map (fun x->x.location))
@@ -41,7 +43,7 @@
 
     let insideBoundsIncludingSquares(gameState: GameState): bool = 
         let locationsOfTrianglesAndCirclesAndSquares  = lazy ( 
-            let (b,startState) = Globals.map.TryGetValue("startState")
+            let (b,startState) = Globals.states.TryGetValue("startState")
             List.append 
                 (List.append 
                     (startState.triangles |> List.map (fun x->x.location))
@@ -85,7 +87,7 @@
             stepsTakenRev = startState.stepsTakenRev
         }
         queue.Enqueue(gameState)
-        Globals.map.Add("startState", gameState)
+        Globals.states.Add("startState", gameState)
         let cancellationSource = new CancellationTokenSource() 
         let monitor = Async.StartAsTask( async {
             while true do
@@ -96,17 +98,34 @@
                         //printf "Length of queue %A" queue.Count  
                     //printf "move %A"  head.stepsTakenRev.Length
                 //printfn
-                Thread.Sleep(2000)
+                do! Async.Sleep(1000)
         },  cancellationToken = cancellationSource.Token)
         let worker = async {
                 let solution = solveRec queue visited maxDepth
                 //printfn "%A" solution
-                if (solution.IsSome) then 
-                    cancellationSource.CancelAfter(99111)
+//                if (solution.IsSome) then 
+//                    cancellationSource.Cancel()
                 return solution;
         } 
-        //for i in 1..2 do 
-        let task = Async.StartAsTask(computation = worker, cancellationToken = cancellationSource.Token)
-        task.Wait()
-        task.Result
-      
+
+        //let task = Async.StartAsTask(computation = worker, cancellationToken = cancellationSource.Token)
+        try
+            for i in 1..2 do 
+                Async.StartWithContinuations(
+                                             computation = worker, 
+                                             continuation=(fun solution -> 
+                                                if solution.IsSome then 
+                                                    //printf "%A" solution; 
+                                                    Globals.solutions.Add("solution",solution);
+                                                    cancellationSource.Cancel(); 
+                                                else ();
+                                             ),
+                                             exceptionContinuation=(fun _->()),
+                                             cancellationContinuation=(fun _->()),
+                                             cancellationToken = cancellationSource.Token)
+            monitor.Wait() 
+        with
+            | :? OperationCanceledException  -> ()
+            | :? AggregateException-> ()
+        let (b,steps)= Globals.solutions.TryGetValue("solution")
+        if b then steps else None
