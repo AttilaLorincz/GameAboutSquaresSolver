@@ -1,7 +1,6 @@
 ﻿module GameAboutSquares.Solver
     open System
     open System.Threading
-    open Microsoft.FSharp.Quotations
     open GameAboutSquares.Game
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
@@ -10,15 +9,31 @@
     type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<List<Square>, unit>
     
     module Globals = 
-        let states = System.Collections.Generic.Dictionary<string,GameState>()
-        let solutions = System.Collections.Generic.Dictionary<string,Color list option>()
+        let mutable startState : GameState = {squares=[];triangles=[];circles=[];stepsTakenRev=[]}
+        let solutions = System.Collections.Concurrent.ConcurrentQueue<Color list option>()
+    
+    let locationsOfTrianglesAndCirclesAndSquares = lazy ( 
+        let startState = Globals.startState
+        List.append 
+            (List.append 
+                (startState.triangles |> List.map (fun x->x.location))
+                (startState.circles   |> List.map (fun x->x.location)))
+            (startState.squares |> List.map (fun sq->sq.location))
+    )
 
-    let allSquaresInsideBounds gameState locations =
-        let boundsOf (loclist: Lazy<Location list>) = 
-            loclist.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
+    let locationsOfTrianglesAndCircles = lazy ( 
+        let startState = Globals.startState
+        List.append 
+                (startState.triangles |> List.map (fun x->x.location))
+                (startState.circles   |> List.map (fun x->x.location)))
+
+    let allSquaresInsideBounds gameState =
+        let bounds  = lazy (
+            locationsOfTrianglesAndCirclesAndSquares.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (Int32.MaxValue, Int32.MaxValue, Int32.MinValue, Int32.MinValue)
-        match (boundsOf locations) with
+        )
+        match (bounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = gameState.squares.Length
             //let n = 1         
@@ -32,31 +47,31 @@
                         )
             outOfBoundsSquare.IsNone
 
-    let insideBounds(gameState: GameState): bool = 
-        let locationsOfTrianglesAndCircles = lazy ( 
-            let (b,startState) = Globals.states.TryGetValue("startState")
-            List.append 
-                (startState.triangles |> List.map (fun x->x.location))
-                (startState.circles   |> List.map (fun x->x.location))
+    let allSquaresInsideStricterBounds gameState =
+        let bounds  = lazy (
+            locationsOfTrianglesAndCircles.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
+                    min mx ax, min my ay,
+                    max Mx ax, max My ay) (Int32.MaxValue, Int32.MaxValue, Int32.MinValue, Int32.MinValue)
         )
-        allSquaresInsideBounds gameState locationsOfTrianglesAndCircles
-
-    let insideBoundsIncludingSquares(gameState: GameState): bool = 
-        let locationsOfTrianglesAndCirclesAndSquares  = lazy ( 
-            let (b,startState) = Globals.states.TryGetValue("startState")
-            List.append 
-                (List.append 
-                    (startState.triangles |> List.map (fun x->x.location))
-                    (startState.circles   |> List.map (fun x->x.location)))
-                (startState.squares |> List.map (fun sq->sq.location))
-        )
-        allSquaresInsideBounds gameState locationsOfTrianglesAndCirclesAndSquares
+        match (bounds.Value) with
+        | (minx, miny, maxx, maxy) ->
+            let n = gameState.squares.Length
+            //let n = 1         
+            let outOfBoundsSquare = 
+                gameState.squares  |>
+                    List.tryFind ( fun sq->
+                        match sq.location with 
+                            |(x, y) when x > maxx + n-1 || x < minx - n+1 || y > maxy + n-1 || y < miny - n+1 -> true
+                            //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
+                            |_ ->false
+                        )
+            outOfBoundsSquare.IsNone
 
     let notVisited (visited:MutableSet) (gameState: GameState)  =
         not(visited.ContainsKey(gameState.squares))
 
     let prune (currentState: GameState, gameStates: GameState seq, visited: MutableSet): GameState seq = 
-        let inside = gameStates |> Seq.filter (if insideBounds currentState then insideBounds else insideBoundsIncludingSquares)
+        let inside = gameStates |> Seq.filter (if allSquaresInsideStricterBounds currentState then allSquaresInsideStricterBounds else allSquaresInsideBounds)
         let iv = notVisited(visited) 
         Seq.filter iv inside
 
@@ -89,7 +104,7 @@
             stepsTakenRev = startState.stepsTakenRev
         }
         queue.Enqueue(gameState)
-        Globals.states.Add("startState", gameState)
+        Globals.startState <- gameState
         let cancellationSource = new CancellationTokenSource() 
         let monitor = Async.StartAsTask( async {
             while true do
@@ -114,7 +129,7 @@
                                              continuation=(fun solution -> 
                                                 if solution.IsSome then 
                                                     //printf "%A" solution; 
-                                                    Globals.solutions.Add("solution",solution);
+                                                    Globals.solutions.Enqueue(solution);
                                                     cancellationSource.Cancel(); 
                                                 else 
                                                     ()
@@ -125,5 +140,5 @@
             monitor.Wait() 
         with
             | :? AggregateException -> ()
-        let (b,steps)= Globals.solutions.TryGetValue("solution")
+        let (b,steps)= Globals.solutions.TryDequeue()
         if b then steps else None
