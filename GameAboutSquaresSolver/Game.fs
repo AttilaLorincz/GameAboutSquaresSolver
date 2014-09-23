@@ -1,16 +1,15 @@
 ﻿module GameAboutSquares.Game
     open System
-    open System.Threading
-    open Microsoft.FSharp.Quotations
 
-    //    ... ... ...
+    // Basic data types
+    type Location = int * int
+    //   ...     | 1,-1 ...
     //   +---+---+---+
-    // ..-1,0|0,0|2,0|..
-    //   +---+---+---+
-    // ..-1,0|0,1|2,1|..
-    //   +---+---+---+
+    // ..-1,0|0,0|1,0|..             > right
+    //   +---+---+---+               < left
+    // ..-1,1|0,1|1,1|..             ^ up
+    //   +---+---+---+               ˇ down
     //    ... ... ... 
-
     type Direction =
         | Up
         | Down
@@ -21,15 +20,16 @@
         | Black
         | Blue
         | Orange 
-    type Location = int * int
-
+    
+    // Components of the game state
     type Square =    {location: Location; color:Color; direction: Direction}
     type Circle =    {location: Location; color:Color}
     type Triangle =  {location: Location; direction:Direction}
     
-    type GameState = {squares: List<Square>; triangles: Triangle list; circles: Circle list; stepsTakenRev: Color list}
+    // The complex data type describing a current state and the moves made to get here from the starting state
+    type GameState = {squares: Square list; triangles: Triangle list; circles: Circle list; stepsTakenRev: Color list}
     
-
+    // Utility functions
     let compareSequences s1 s2 = (s1, s2) ||> Seq.forall2 (=)
 
     let compareColors(c1:Color)(c2:Color) : int =
@@ -42,12 +42,16 @@
 
     let compareSquareColors(s1:Square)(s2:Square) : int =
       compareColors s1.color s2.color
-
+    
+    // Game mechanics
     let isEndState gameState =
-            compareSequences                               
-                (gameState.squares (*|> List.sortWith compareSquareColors  *) |> List.map (fun x->x.location))
-                (gameState.circles (*|> List.sortWith compareCircleColors  *) |> List.map (fun x->x.location))
-
+        // The order of items in the lists does not matter so we should sort before comparing or use order-agnostic comparison, but
+        // for performance reason exploit the fact that we sort the squares and circles at the beginning and then keep their order
+        compareSequences 
+            (gameState.squares (*|> List.sortWith compareSquareColors  *) |> List.map (fun x->x.location))
+            (gameState.circles (*|> List.sortWith compareCircleColors  *) |> List.map (fun x->x.location))
+    
+    //  Given the currnt state and the color of the square to move returns the state with that move mad
     let makeMoves (gameState : GameState)(color : Color) : GameState = 
         let rec moves (moveSq : Square)(direction : Direction) (gameState : GameState) =
             let moveSquare (square:Square)(direction:Direction) : Square = {   
@@ -75,20 +79,20 @@
                 |Some _-> moves otherSquare.Value direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
                 |None -> nextSquares
 
-        let squareToMove = gameState.squares |> List.find(fun s -> s.color = color)
-        {
-            GameState.circles = gameState.circles;
+        let squareToMove = gameState.squares |> List.find(fun s -> s.color = color)        
+        {GameState.circles = gameState.circles;
             triangles = gameState.triangles;        
             stepsTakenRev = color :: gameState.stepsTakenRev;
             squares = moves squareToMove squareToMove.direction gameState;
         } 
-
+    
+    // Returns the sequence of game states reachable from the current state by making possible moves
     let subsequentGameStates gameState : GameState seq =
         seq { for moveSq in gameState.squares do yield  {
                     stepsTakenRev = moveSq.color :: gameState.stepsTakenRev 
                     triangles  = gameState.triangles; 
                     circles    = gameState.circles;
                     squares    = (makeMoves gameState moveSq.color).squares // moves moveSq moveSq.direction gameState;
-               }
+            }
         }
  
