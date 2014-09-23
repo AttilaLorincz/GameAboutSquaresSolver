@@ -75,7 +75,9 @@
                 if gameState.stepsTakenRev.Length < maxDepth then
                     for s in  prune(gameState, subsequentGameStates gameState, visited) do
                         queue.Enqueue(s)
-                solveRec queue visited maxDepth
+                    solveRec queue visited maxDepth
+                else
+                    None
  
     let solve (startState:GameState) (maxDepth:int) : Color list option =
         let queue = MutableQueue()
@@ -93,24 +95,20 @@
             while true do
                 System.Console.WriteLine(DateTime.Now.ToString() + " " + visited.Count.ToString())               
                 // printf "%A - " DateTime.Now
-                //let (b, head) = queue.TryPeek()                
-                //if b then
-                        //printf "Length of queue %A" queue.Count  
-                    //printf "move %A"  head.stepsTakenRev.Length
-                //printfn
+                let (b, head) = queue.TryPeek()                
+                if b then
+                    printf "Length of queue %A" queue.Count  
+                printfn "move %A"  head.stepsTakenRev.Length
                 do! Async.Sleep(1000)
         },  cancellationToken = cancellationSource.Token)
+
         let worker = async {
-                let solution = solveRec queue visited maxDepth
-                //printfn "%A" solution
-//                if (solution.IsSome) then 
-//                    cancellationSource.Cancel()
-                return solution;
+            return solveRec queue visited maxDepth
         } 
 
         //let task = Async.StartAsTask(computation = worker, cancellationToken = cancellationSource.Token)
         try
-            for i in 1..2 do 
+            for i in 1..3 do 
                 Async.StartWithContinuations(
                                              computation = worker, 
                                              continuation=(fun solution -> 
@@ -118,14 +116,15 @@
                                                     //printf "%A" solution; 
                                                     Globals.solutions.Add("solution",solution);
                                                     cancellationSource.Cancel(); 
-                                                else ();
+                                                else 
+                                                    ()
                                              ),
                                              exceptionContinuation=(fun _->()),
                                              cancellationContinuation=(fun _->()),
                                              cancellationToken = cancellationSource.Token)
             monitor.Wait() 
         with
-            | :? OperationCanceledException  -> ()
-            | :? AggregateException-> ()
+            | :? OperationCanceledException -> ()
+            | :? AggregateException -> ()
         let (b,steps)= Globals.solutions.TryGetValue("solution")
         if b then steps else None

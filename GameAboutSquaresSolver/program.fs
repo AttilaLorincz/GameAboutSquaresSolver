@@ -16,8 +16,8 @@
     [<EntryPoint>]
     let main(args) = 
         //Level 15: [Red; Red; Red; Blue; Red; Blue; Red; Red; Blue; Red; Red; Red; ]
-        let startState = level16
-        let maxDepth = 17
+        let startState = level 17
+        let maxDepth = 22
         let stopWatch = System.Diagnostics.Stopwatch.StartNew()
         try 
             match solve startState maxDepth with
