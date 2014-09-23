@@ -93,13 +93,13 @@
         let cancellationSource = new CancellationTokenSource() 
         let monitor = Async.StartAsTask( async {
             while true do
-                System.Console.WriteLine(DateTime.Now.ToString() + " " + visited.Count.ToString())               
-                // printf "%A - " DateTime.Now
+                System.Console.Write(DateTime.Now.ToString("s").Replace("T"," ") + " visited: " + visited.Count.ToString() + "\t")
                 let (b, head) = queue.TryPeek()                
                 if b then
-                    printf "Length of queue %A" queue.Count  
-                printfn "move %A"  head.stepsTakenRev.Length
-                do! Async.Sleep(1000)
+//                    printf "Length of queue %d:2" queue.Count  
+                    System.Console.Write("("+head.stepsTakenRev.Length.ToString()+")")
+                System.Console.WriteLine()
+                do! Async.Sleep(2000)
         },  cancellationToken = cancellationSource.Token)
 
         let worker = async {
@@ -108,7 +108,7 @@
 
         //let task = Async.StartAsTask(computation = worker, cancellationToken = cancellationSource.Token)
         try
-            for i in 1..3 do 
+            for i in 1..2 do 
                 Async.StartWithContinuations(
                                              computation = worker, 
                                              continuation=(fun solution -> 
@@ -124,7 +124,6 @@
                                              cancellationToken = cancellationSource.Token)
             monitor.Wait() 
         with
-            | :? OperationCanceledException -> ()
             | :? AggregateException -> ()
         let (b,steps)= Globals.solutions.TryGetValue("solution")
         if b then steps else None
