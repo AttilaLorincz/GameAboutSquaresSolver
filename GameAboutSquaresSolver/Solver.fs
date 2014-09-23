@@ -26,13 +26,13 @@
         List.append 
                 (startState.triangles |> List.map (fun x->x.location))
                 (startState.circles   |> List.map (fun x->x.location)))
-
-    let allSquaresInsideBounds gameState =
-        let bounds  = lazy (
+    let bounds  = lazy (
             locationsOfTrianglesAndCirclesAndSquares.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (Int32.MaxValue, Int32.MaxValue, Int32.MinValue, Int32.MinValue)
         )
+
+    let allSquaresInsideBounds gameState =
         match (bounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = gameState.squares.Length
@@ -46,14 +46,13 @@
                             |_ ->false
                         )
             outOfBoundsSquare.IsNone
-
-    let allSquaresInsideStricterBounds gameState =
-        let bounds  = lazy (
+    let stricterbounds  = lazy (
             locationsOfTrianglesAndCircles.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (Int32.MaxValue, Int32.MaxValue, Int32.MinValue, Int32.MinValue)
         )
-        match (bounds.Value) with
+    let allSquaresInsideStricterBounds gameState =
+        match (stricterbounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = gameState.squares.Length
             //let n = 1         
