@@ -19,6 +19,9 @@
         | Black
         | Blue
         | Orange 
+        | Green
+        | Gray
+        | Purple
     
     // Components of the game state
     type Square =    {location: Location; color:Color; direction: Direction}

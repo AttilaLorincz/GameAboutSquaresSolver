@@ -128,10 +128,19 @@
         }
 
     let level19 = // Min 43
-        None
+       { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(0,3); direction=Right}; {location=(3,3); direction=Up};{location=(3,1); direction=Left};{location=(1,1); direction=Down};{location=(1,2); direction=Right};{location=(2,2); direction=Up}]; 
+            circles=   [{location=(2,-3); color=Red}; {location=(2,1); color=Black};{location=(2,-1); color=Blue}] 
+            squares=   [{location=(0,0); color=Red; direction=Down}; {location=(1,1); color=Blue; direction=Down};{location=(2,2); color=Black; direction=Up}];
+        }
 
     let level20 = // Min 38
-        None
+        { startState with
+            triangles= [{location=(-1,-1); direction=Down};{location=(1,-1); direction=Left}; {location=(-1,1); direction=Right};{location=(1,1); direction=Up};{location=(-1,3); direction=Up};]; 
+            circles=   [{location=(-1, 0); color=Black}; {location=(1,0); color=Gray};{location=(0,1); color=Purple};{location=(0,-1); color=Green}] 
+            squares=   [{location=(-1,-1); color=Black; direction=Down}; {location=(-1,1); color=Green; direction=Right};{location=(1,1); color=Gray; direction=Up};{location=(1,-1); color=Purple; direction=Left}];
+        }
+
 
     let level21 = // Min 42
         None
