@@ -1,14 +1,13 @@
 ﻿module GameAboutSquares.Game
-    open System
-
     // Basic data types
     type Location = int * int
-    //   ...     | 1,-1 ...
-    //   +---+---+---+
-    // ..-1,0|0,0|1,0|..             > right
-    //   +---+---+---+               < left
-    // ..-1,1|0,1|1,1|..             ^ up
-    //   +---+---+---+               ˇ down
+    //    Coordinates:              Directions:
+    //   ... |   |1,-1..
+    //   +---+---+---+               > right              
+    // ..-1,0|0,0|1,0|..             < left
+    //   +---+---+---+               ^ up
+    // ..-1,1|0,1|1,1|..             ˇ down
+    //   +---+---+---+               
     //    ... ... ... 
     type Direction =
         | Up
