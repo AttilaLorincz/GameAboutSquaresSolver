@@ -140,7 +140,7 @@
                                              cancellationToken = cancellationSource.Token)
             monitor.Wait() 
         with
-            | :? AggregateException as e->if linq.Where(e.InnerExceptions, fun(ie) -> not(ie:? OperationCanceledException)) |> linq.Any then raise e
+            | :? AggregateException as e->if linq.Where(e.InnerExceptions, fun(ie) -> not(ie:? OperationCanceledException)) |> linq.Any then reraise()
                                                
         let (b,steps)= Globals.solutions.TryDequeue()
         if b then steps else None
