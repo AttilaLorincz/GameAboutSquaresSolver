@@ -143,16 +143,34 @@
 
 
     let level21 = // Min 42
-        None
+        { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(0,2); direction=Up}; {location=(0,3); direction=Down};{location=(0,4); direction=Right};{location=(2,4); direction=Up};{location=(0,4); direction=Left}]; 
+            circles=   [{location=(0,1); color=Gray}; {location=(2,1); color=Red};{location=(2,2); color=Green};{location=(2,3); color=Orange}] 
+            squares=   [{location=(0,0); color=Gray; direction=Down}; {location=(0,4); color=Red; direction=Right};{location=(2,0); color=Orange; direction=Left};{location=(2,4); color=Green; direction=Up}];
+        }
 
     let level22 = // Min 17
-        None
+        { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(-1,2); direction=Right}; {location=(0,4); direction=Up};{location=(3,3); direction=Left}]; 
+            circles=   [{location=(1,0); color=Red}] 
+            squares=   [{location=(0,0); color=Blue; direction=Down}; {location=(-1,2); color=Red; direction=Right};{location=(3,1); color=Black; direction=Down}];
+        }
+
 
     let level23 = // Min 17
-        None
+        { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(-2,2); direction=Right}; {location=(2,1); direction=Left};{location=(0,4); direction=Up}]; 
+            circles=   [{location=(-1,3); color=Red}; {location=(0,3); color=Blue};{location=(1,3); color=Black}] 
+            squares=   [{location=(-1,0); color=Blue; direction=Down}; {location=(-2,2); color=Black; direction=Right};{location=(2,1); color=Red; direction=Left}];
+        }
+
 
     let level24 = // Min 23
-        None
+        { startState with
+            triangles= [{location=(0,0); direction=Down};{location=(0,3); direction=Right}; {location=(3,3); direction=Up};{location=(3,1); direction=Left};{location=(1,1); direction=Down};{location=(1,2); direction=Right};{location=(2,2); direction=Up}]; 
+            circles=   [{location=(0,-2); color=Red}; {location=(1,-1); color=Blue};{location=(2,0); color=Black}] 
+            squares=   [{location=(0,0); color=Red; direction=Down}; {location=(1,1); color=Blue; direction=Down};{location=(2,2); color=Black; direction=Up}];
+        }
 
     let level25 = // Min 24
         None
@@ -197,16 +215,16 @@
 
     let level n = 
         match n with
-            |0 -> level0
-            |1 -> level1
-            |2 -> level2
-            |3 -> level3
-            |4 -> level4
-            |5 -> level5
-            |6 -> level6
-            |7 -> level7
-            |8 -> level8
-            |9 -> level9
+            | 0 -> level0
+            | 1 -> level1
+            | 2 -> level2
+            | 3 -> level3
+            | 4 -> level4
+            | 5 -> level5
+            | 6 -> level6
+            | 7 -> level7
+            | 8 -> level8
+            | 9 -> level9
             |10 -> level10
             |11 -> level11
             |12 -> level12
@@ -216,12 +234,12 @@
             |16 -> level16
             |17 -> level17
             |18 -> level18
-//            |19 -> level19
-//            |20 -> level20
-//            |21 -> level21
-//            |22 -> level22
-//            |23 -> level23
-//            |24 -> level24
+            |19 -> level19
+            |20 -> level20
+            |21 -> level21
+            |22 -> level22
+            |23 -> level23
+            |24 -> level24
 //            |25 -> level25
 //            |26 -> level26
 //            |27 -> level27
