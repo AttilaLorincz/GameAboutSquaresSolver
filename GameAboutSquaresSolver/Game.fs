@@ -1,6 +1,6 @@
 ﻿module GameAboutSquares.Game
     // Basic data types
-    type Location = int * int
+    type Location = sbyte * sbyte
     //    Coordinates:              Directions:
     //   ... |   |1,-1..
     //   +---+---+---+               > right              
@@ -58,10 +58,10 @@
                 color=square.color; 
                 location= match square.location with 
                             (x,y) -> match direction with
-                                        |Up ->   (x,y-1)
-                                        |Down -> (x,y+1)
-                                        |Left -> (x-1,y)
-                                        |Right ->(x+1,y);
+                                        |Up ->   (x,y-1y)
+                                        |Down -> (x,y+1y)
+                                        |Left -> (x-1y,y)
+                                        |Right ->(x+1y,y);
             }
             let orientSquare(triangles:Triangle seq)(square:Square) : Square =
                 match triangles |> Seq.tryFind (fun t -> t.location = square.location) with
@@ -87,11 +87,7 @@
     
     // Returns the sequence of game states reachable from the current state by making possible moves
     let subsequentGameStates gameState : GameState seq =
-        seq { for moveSq in gameState.squares do yield  {
-                    stepsTakenRev = moveSq.color :: gameState.stepsTakenRev 
-                    triangles  = gameState.triangles; 
-                    circles    = gameState.circles;
-                    squares    = (makeMoves gameState moveSq.color).squares // moves moveSq moveSq.direction gameState;
+        seq { for moveSq in gameState.squares do yield  { (makeMoves gameState moveSq.color) with stepsTakenRev = moveSq.color :: gameState.stepsTakenRev 
             }
         }
  

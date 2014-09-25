@@ -2,188 +2,188 @@
     open GameAboutSquares.Game
     let startState = {triangles=[]; circles=[]; squares = []; stepsTakenRev=[]}
     
-    let level0 = // Min 2
+    let level0 = // Min 2y
         { startState with
-            circles= [{location=(0,2); color=Red}] 
-            squares= [{location=(0,0); color=Red; direction=Down}]
+            circles= [{location=(0y,2y); color=Red}] 
+            squares= [{location=(0y,0y); color=Red; direction=Down}]
         }
 
-    let level1 = // Min 2
+    let level1 = // Min 2y
         { startState with
-            circles= [{location=(0,2); color=Red}; {location=(0,1); color=Blue}] 
-            squares= [{location=(0,0); color=Blue; direction=Down}; {location=(0,3); color=Red; direction=Up}];
+            circles= [{location=(0y,2y); color=Red}; {location=(0y,1y); color=Blue}] 
+            squares= [{location=(0y,0y); color=Blue; direction=Down}; {location=(0y,3y); color=Red; direction=Up}];
         }
 
     let level2 = // Min 6
         { startState with
-            circles= [{location=(0,0); color=Blue}; {location=(1,0); color=Red}; {location=(0,1); color=Black}] 
-            squares= [{location=(-1,0); color=Red; direction=Right}; {location=(0,2); color=Blue; direction=Up}; {location=(2,1); color=Black; direction=Left}];
+            circles= [{location=(0y,0y); color=Blue}; {location=(1y,0y); color=Red}; {location=(0y,1y); color=Black}] 
+            squares= [{location=(-1y,0y); color=Red; direction=Right}; {location=(0y,2y); color=Blue; direction=Up}; {location=(2y,1y); color=Black; direction=Left}];
         }
 
     let level3 = // Min 9
         { startState with
-            circles= [{location=(0,3); color=Red}; {location=(2,5); color=Blue};] 
-            squares= [{location=(2,0); color=Blue; direction=Down}; {location=(4,2); color=Red; direction=Left}];
+            circles= [{location=(0y,3y); color=Red}; {location=(2y,5y); color=Blue};] 
+            squares= [{location=(2y,0y); color=Blue; direction=Down}; {location=(4y,2y); color=Red; direction=Left}];
         }
 
-    let level4 = // Min 5
+    let level4 = // Min 5y
         { startState with
-            circles= [{location=(0,0); color=Red}; {location=(1,1); color=Black}; {location=(2,2); color=Blue}] 
-            squares= [{location=(-1,0); color=Blue; direction=Right}; {location=(0,-1); color=Red; direction=Down}; {location=(1,0); color=Black; direction=Down}];
+            circles= [{location=(0y,0y); color=Red}; {location=(1y,1y); color=Black}; {location=(2y,2y); color=Blue}] 
+            squares= [{location=(-1y,0y); color=Blue; direction=Right}; {location=(0y,-1y); color=Red; direction=Down}; {location=(1y,0y); color=Black; direction=Down}];
         }
 
-    let level5 = // Min 5
+    let level5 = // Min 5y
         { startState with
-           circles= [{location=(0,0); color=Red}; {location=(1,1); color=Blue}; {location=(2,2); color=Black}] 
-           squares= [{location=(-1,0); color=Blue; direction=Right}; {location=(0,-1); color=Red; direction=Down}; {location=(1,0); color=Black; direction=Down}];
+           circles= [{location=(0y,0y); color=Red}; {location=(1y,1y); color=Blue}; {location=(2y,2y); color=Black}] 
+           squares= [{location=(-1y,0y); color=Blue; direction=Right}; {location=(0y,-1y); color=Red; direction=Down}; {location=(1y,0y); color=Black; direction=Down}];
         }
 
     let level6 = // Min 8
         { startState with
-           circles= [{location=(0,0); color=Black}; {location=(1,1); color=Blue}; {location=(2,3); color=Red}] 
-           squares= [{location=(2,2); color=Black; direction=Up}; {location=(3,0); color=Red; direction=Down}; {location=(4,1); color=Blue; direction=Left}];
+           circles= [{location=(0y,0y); color=Black}; {location=(1y,1y); color=Blue}; {location=(2y,3y); color=Red}] 
+           squares= [{location=(2y,2y); color=Black; direction=Up}; {location=(3y,0y); color=Red; direction=Down}; {location=(4y,1y); color=Blue; direction=Left}];
         }
 
     let level7 = // Min 6
         { startState with
-            triangles= [{location=(0,2); direction=Right}; {location=(2,2); direction=Up} ] 
-            circles=   [{location=(2,0); color=Blue} ] 
-            squares=   [{location=(0,0); color=Blue; direction=Down} ] 
+            triangles= [{location=(0y,2y); direction=Right}; {location=(2y,2y); direction=Up} ] 
+            circles=   [{location=(2y,0y); color=Blue} ] 
+            squares=   [{location=(0y,0y); color=Blue; direction=Down} ] 
         }
 
     let level8 = // Min 9
         { startState with
-            triangles= [{location=(0,2); direction=Right}; {location=(2,2); direction=Up} ] 
-            circles=   [{location=(2,0); color=Orange}; {location=(3,0); color=Black}] 
-            squares=   [{location=(0,0); color=Orange; direction=Down}; {location=(0,2); color=Black; direction=Right}] 
+            triangles= [{location=(0y,2y); direction=Right}; {location=(2y,2y); direction=Up} ] 
+            circles=   [{location=(2y,0y); color=Orange}; {location=(3y,0y); color=Black}] 
+            squares=   [{location=(0y,0y); color=Orange; direction=Down}; {location=(0y,2y); color=Black; direction=Right}] 
         }
     
-    let level9 = // Min 5
+    let level9 = // Min 5y
         { startState with
-            triangles= [{location=(0,1); direction=Right}; {location=(2,1); direction=Up}; {location=(3,1); direction=Left}] 
-            circles=   [{location=(1,0); color=Orange}; {location=(2,0); color=Blue}] 
-            squares=   [{location=(0,1); color=Orange; direction=Right}; {location=(2,1); color=Blue; direction=Up}] 
+            triangles= [{location=(0y,1y); direction=Right}; {location=(2y,1y); direction=Up}; {location=(3y,1y); direction=Left}] 
+            circles=   [{location=(1y,0y); color=Orange}; {location=(2y,0y); color=Blue}] 
+            squares=   [{location=(0y,1y); color=Orange; direction=Right}; {location=(2y,1y); color=Blue; direction=Up}] 
         }
 
     let level10 = // Min 8
         { startState with
-            triangles= [{location=(0,0); direction=Right}]; 
-            circles=   [{location=(-2,0); color=Black}; {location=(-1,0); color=Red};{location=(1,0); color=Blue}]; 
-            squares=   [{location=(0,2); color=Black; direction=Up}; {location=(0,-2); color=Red; direction=Down};{location=(2,0); color=Blue; direction=Left};];
+            triangles= [{location=(0y,0y); direction=Right}]; 
+            circles=   [{location=(-2y,0y); color=Black}; {location=(-1y,0y); color=Red};{location=(1y,0y); color=Blue}]; 
+            squares=   [{location=(0y,2y); color=Black; direction=Up}; {location=(0y,-2y); color=Red; direction=Down};{location=(2y,0y); color=Blue; direction=Left};];
         }
 
-    let level11 = // Min 14
+    let level11 = // Min 1y4y
         { startState with
-            triangles= [{location=(2,0); direction=Down}]; 
-            circles=   [{location=(1,2); color=Red}; {location=(2,2); color=Blue};{location=(3,2); color=Black}]; 
-            squares=   [{location=(0,0); color=Red; direction=Right}; {location=(4,0); color=Blue; direction=Left};{location=(2,4); color=Black; direction=Up};];
+            triangles= [{location=(2y,0y); direction=Down}]; 
+            circles=   [{location=(1y,2y); color=Red}; {location=(2y,2y); color=Blue};{location=(3y,2y); color=Black}]; 
+            squares=   [{location=(0y,0y); color=Red; direction=Right}; {location=(4y,0y); color=Blue; direction=Left};{location=(2y,4y); color=Black; direction=Up};];
         } 
 
     let level12 = // Min 9
         { startState with
-            triangles= [{location=(0,-1); direction=Down}; {location=(2,0); direction=Left}]; 
-            circles=   [{location=(0,0); color=Black}; {location=(0,1); color=Orange}]; 
-            squares=   [{location=(-1,1); color=Orange; direction=Right}; {location=(1,2); color=Black; direction=Up}];
+            triangles= [{location=(0y,-1y); direction=Down}; {location=(2y,0y); direction=Left}]; 
+            circles=   [{location=(0y,0y); color=Black}; {location=(0y,1y); color=Orange}]; 
+            squares=   [{location=(-1y,1y); color=Orange; direction=Right}; {location=(1y,2y); color=Black; direction=Up}];
         } 
 
-    let level13 = // Min 10
+    let level13 = // Min 1y0y
         { startState with
-            triangles= [{location=(0,-1); direction=Down}]; 
-            circles=   [{location=(0,0); color=Blue}; {location=(-1,2); color=Orange}; {location=(0,-2); color=Black}]; 
-            squares=   [{location=(0,-1); color=Black; direction=Down}; {location=(2,1); color=Orange; direction=Left}; {location=(1,3); color=Blue; direction=Up}];
+            triangles= [{location=(0y,-1y); direction=Down}]; 
+            circles=   [{location=(0y,0y); color=Blue}; {location=(-1y,2y); color=Orange}; {location=(0y,-2y); color=Black}]; 
+            squares=   [{location=(0y,-1y); color=Black; direction=Down}; {location=(2y,1y); color=Orange; direction=Left}; {location=(1y,3y); color=Blue; direction=Up}];
         } 
 
     let level14 = // Min 9
         { startState with
-            circles= [{location=(0,0); color=Red}; {location=(1,1); color=Blue};{location=(2,0); color=Orange}; {location=(2,2); color=Black}] 
-            squares= [{location=(1,0); color=Black; direction=Down}; {location=(0,1); color=Orange; direction=Right};{location=(2,1); color=Red; direction=Left};{location=(1,2); color=Blue; direction=Up}];
+            circles= [{location=(0y,0y); color=Red}; {location=(1y,1y); color=Blue};{location=(2y,0y); color=Orange}; {location=(2y,2y); color=Black}] 
+            squares= [{location=(1y,0y); color=Black; direction=Down}; {location=(0y,1y); color=Orange; direction=Right};{location=(2y,1y); color=Red; direction=Left};{location=(1y,2y); color=Blue; direction=Up}];
         }
  
-    let level15 = // Min 13
+    let level15 = // Min 1y3y
         { startState with
-            triangles= [{location=(0,0); direction=Down}; {location=(3,0); direction=Left}; {location=(0,1); direction=Right}]; 
-            circles=   [{location=(1,1); color=Red}; {location=(1,2); color=Blue} ] 
-            squares=   [{location=(0,0); color=Red; direction=Down}; {location=(2,2); color=Blue; direction=Up}];
+            triangles= [{location=(0y,0y); direction=Down}; {location=(3y,0y); direction=Left}; {location=(0y,1y); direction=Right}]; 
+            circles=   [{location=(1y,1y); color=Red}; {location=(1y,2y); color=Blue} ] 
+            squares=   [{location=(0y,0y); color=Red; direction=Down}; {location=(2y,2y); color=Blue; direction=Up}];
         }
     
-    let level16 =  // Min 14
+    let level16 =  // Min 1y4y
         { startState with
-            triangles= [{location=(0,0); direction=Right}; {location=(2,0); direction=Down}; {location=(2,1); direction=Left}; {location=(1,2); direction=Up}]; 
-            circles=   [{location=(0,1); color=Red}; {location=(3,1); color=Blue} ] 
-            squares=   [{location=(0,0); color=Red; direction=Right}; {location=(2,1); color=Blue; direction=Left}];
+            triangles= [{location=(0y,0y); direction=Right}; {location=(2y,0y); direction=Down}; {location=(2y,1y); direction=Left}; {location=(1y,2y); direction=Up}]; 
+            circles=   [{location=(0y,1y); color=Red}; {location=(3y,1y); color=Blue} ] 
+            squares=   [{location=(0y,0y); color=Red; direction=Right}; {location=(2y,1y); color=Blue; direction=Left}];
         }
 
-    let level17 =  // Min 20
+    let level17 =  // Min 2y0y
         { startState with
-            triangles= [{location=(0,0); direction=Down};{location=(0,1); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
-            circles=   [{location=(1,1); color=Red}; {location=(2,1); color=Black};{location=(3,1); color=Blue}] 
-            squares=   [{location=(0,0); color=Red; direction=Down}; {location=(0,1); color=Black; direction=Right};{location=(3,0); color=Blue; direction=Left}];
+            triangles= [{location=(0y,0y); direction=Down};{location=(0y,1y); direction=Right}; {location=(2y,2y); direction=Up};{location=(3y,0y); direction=Left}]; 
+            circles=   [{location=(1y,1y); color=Red}; {location=(2y,1y); color=Black};{location=(3y,1y); color=Blue}] 
+            squares=   [{location=(0y,0y); color=Red; direction=Down}; {location=(0y,1y); color=Black; direction=Right};{location=(3y,0y); color=Blue; direction=Left}];
         }
 
-    let level18 = // Min 21 
+    let level18 = // Min 2y1y 
         { startState with
-            triangles= [{location=(0,0); direction=Down};{location=(0,1); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
-            circles=   [{location=(1,1); color=Red}; {location=(2,1); color=Black};{location=(3,1); color=Blue}] 
-            squares=   [{location=(0,0); color=Black; direction=Down}; {location=(0,1); color=Red; direction=Right};{location=(0,3); color=Blue; direction=Left}];
+            triangles= [{location=(0y,0y); direction=Down};{location=(0y,1y); direction=Right}; {location=(2y,2y); direction=Up};{location=(3y,0y); direction=Left}]; 
+            circles=   [{location=(1y,1y); color=Red}; {location=(2y,1y); color=Black};{location=(3y,1y); color=Blue}] 
+            squares=   [{location=(0y,0y); color=Black; direction=Down}; {location=(0y,1y); color=Red; direction=Right};{location=(0y,3y); color=Blue; direction=Left}];
         }
 
-    let level19 = // Min 43
+    let level19 = // Min 4y3y
         None
 
-    let level20 = // Min 38
+    let level20 = // Min 3y8
         None
 
-    let level21 = // Min 42
+    let level21 = // Min 4y2y
         None
 
-    let level22 = // Min 17
+    let level22 = // Min 1y7
         None
 
-    let level23 = // Min 17
+    let level23 = // Min 1y7
         None
 
-    let level24 = // Min 23
+    let level24 = // Min 2y3y
         None
 
-    let level25 = // Min 24
+    let level25 = // Min 2y4y
         None
 
-    let level26 = // Min 24
+    let level26 = // Min 2y4y
         None
 
-    let level27 = // Min 28
+    let level27 = // Min 2y8
         None
 
-    let level28 = // Min 18
+    let level28 = // Min 1y8
         None
 
-    let level29 = // Min 22
+    let level29 = // Min 2y2y
         { startState with
-            triangles= [{location=(0,-2); direction=Down};{location=(0,2); direction=Up};{location=(2,0); direction=Right}]; 
-            circles=   [{location=(-1,0); color=Orange}; {location=(0,-1); color=Red};{location=(1,0); color=Blue};{location=(0,1); color=Black}] 
-            squares=   [{location=(-2,0); color=Red; direction=Right}; {location=(0,-2); color=Blue; direction=Down}; {location=(2,0); color=Black; direction=Left}; {location=(0,2); color=Orange; direction=Up}];
+            triangles= [{location=(0y,-2y); direction=Down};{location=(0y,2y); direction=Up};{location=(2y,0y); direction=Right}]; 
+            circles=   [{location=(-1y,0y); color=Orange}; {location=(0y,-1y); color=Red};{location=(1y,0y); color=Blue};{location=(0y,1y); color=Black}] 
+            squares=   [{location=(-2y,0y); color=Red; direction=Right}; {location=(0y,-2y); color=Blue; direction=Down}; {location=(2y,0y); color=Black; direction=Left}; {location=(0y,2y); color=Orange; direction=Up}];
         }
 
-    let level30 = // Min 41
+    let level30 = // Min 4y1y
         None
 
-    let level31 = // Min 21
+    let level31 = // Min 2y1y
         None
 
-    let level32 = // Min 33
+    let level32 = // Min 3y3y
         None
 
-    let level33 = // Min 45
+    let level33 = // Min 4y5y
         { startState with
-            triangles= [{location=(0,0); direction=Down};{location=(0,2); direction=Right}; {location=(2,2); direction=Up};{location=(3,0); direction=Left}]; 
-            circles=   [{location=(-1,-1); color=Blue}; {location=(0,-1); color=Red};{location=(1,-1); color=Black}] 
-            squares=   [{location=(0,0); color=Blue; direction=Down}; {location=(0,2); color=Black; direction=Right};{location=(2,2); color=Red; direction=Up}];
+            triangles= [{location=(0y,0y); direction=Down};{location=(0y,2y); direction=Right}; {location=(2y,2y); direction=Up};{location=(3y,0y); direction=Left}]; 
+            circles=   [{location=(-1y,-1y); color=Blue}; {location=(0y,-1y); color=Red};{location=(1y,-1y); color=Black}] 
+            squares=   [{location=(0y,0y); color=Blue; direction=Down}; {location=(0y,2y); color=Black; direction=Right};{location=(2y,2y); color=Red; direction=Up}];
         }
 
-    let level34 = // Min 33
+    let level34 = // Min 3y3y
         None
 
-    let level35 = // Min 39
+    let level35 = // Min 3y9
         None
 
     let level n = 
