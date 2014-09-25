@@ -2,11 +2,14 @@
     open System
     open System.Threading
     open GameAboutSquares.Game
+    type linq = System.Linq.Enumerable
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
     type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
     type MutableSet = System.Collections.Generic.SortedList<Square list,unit>
-    //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<List<Square>, unit>
+    //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
+    
+    let (<&>) f g = (fun x -> f x && g x)
     
     module Globals = 
         let mutable startState : GameState = {squares=[];triangles=[];circles=[];stepsTakenRev=[]}
@@ -70,9 +73,8 @@
         not(visited.ContainsKey(gameState.squares))
 
     let prune (currentState: GameState, gameStates: GameState seq, visited: MutableSet): GameState seq = 
-        let inside = gameStates |> Seq.filter (if allSquaresInsideStricterBounds currentState then allSquaresInsideStricterBounds else allSquaresInsideBounds)
-        let iv = notVisited(visited) 
-        Seq.filter iv inside
+        gameStates 
+        |> Seq.filter (notVisited(visited) <&> if allSquaresInsideStricterBounds currentState then allSquaresInsideStricterBounds else allSquaresInsideBounds)
 
     let rec solveRec (queue:MutableQueue) (visited:MutableSet) (maxDepth:int): Color list option =   
         let (b, gameState) = queue.TryDequeue()
@@ -138,6 +140,7 @@
                                              cancellationToken = cancellationSource.Token)
             monitor.Wait() 
         with
-            | :? AggregateException -> ()
+            | :? AggregateException as e->if linq.Where(e.InnerExceptions, fun(ie) -> not(ie:? OperationCanceledException)) |> linq.Any then reraise()
+                                               
         let (b,steps)= Globals.solutions.TryDequeue()
         if b then steps else None

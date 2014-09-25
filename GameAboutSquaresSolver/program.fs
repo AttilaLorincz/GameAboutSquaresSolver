@@ -16,7 +16,7 @@
     let main(args) = 
         //Level 15: [Red; Red; Red; Blue; Red; Blue; Red; Red; Blue; Red; Red; Red; ]
         //printfn "%A" sizeof<Color>
-        let startState = level 17
+        let startState = level 11
         let maxDepth = 23
         let stopWatch = System.Diagnostics.Stopwatch.StartNew()
         try 
