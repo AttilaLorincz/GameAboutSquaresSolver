@@ -2,7 +2,6 @@
     open System
     open System.Threading
     open GameAboutSquares.Game
-    type linq = System.Linq.Enumerable
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
     type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
@@ -107,7 +106,7 @@
         queue.Enqueue(gameState)
         Globals.startState <- gameState
         let cancellationSource = new CancellationTokenSource() 
-        let monitor = Async.StartAsTask( async {
+        let monitorTask = Async.StartAsTask( async {
             while true do
                 System.Console.Write(DateTime.Now.ToString("s").Replace("T"," ") + " visited: " + visited.Count.ToString() + "\t")
                 let (b, head) = queue.TryPeek()                
@@ -138,9 +137,9 @@
                                              exceptionContinuation=(fun _->()),
                                              cancellationContinuation=(fun _->()),
                                              cancellationToken = cancellationSource.Token)
-            monitor.Wait() 
+            monitorTask.Wait() 
         with
-            | :? AggregateException as e->if linq.Where(e.InnerExceptions, fun(ie) -> not(ie:? OperationCanceledException)) |> linq.Any then reraise()
+            | :? AggregateException as e-> if e.InnerExceptions |> Seq.filter(fun(ie) -> not(ie :? OperationCanceledException)) |> Seq.isEmpty |> not then reraise()
                                                
         let (b,steps)= Globals.solutions.TryDequeue()
         if b then steps else None
