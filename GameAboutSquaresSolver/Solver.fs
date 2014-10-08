@@ -5,9 +5,9 @@
     type linq = System.Linq.Enumerable
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
-    type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
-    type MutableSet = System.Collections.Generic.SortedList<Square list,unit>
-    //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
+    type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<Color list>
+    //type MutableSet = System.Collections.Generic.SortedList<Square list,unit>
+    type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
     
     let (<&>) f g = (fun x -> f x && g x)
     
@@ -76,21 +76,30 @@
         gameStates 
         |> Seq.filter (notVisited(visited) <&> if allSquaresInsideStricterBounds currentState then allSquaresInsideStricterBounds else allSquaresInsideBounds)
 
+    let replaySteps (solution: Color list) : GameState =
+                (Globals.startState, solution) 
+                    ||> List.fold (fun acc step -> (
+                                                    let newState = makeMoves acc step
+                                                    newState
+                                                   )
+                )
+
     let rec solveRec (queue:MutableQueue) (visited:MutableSet) (maxDepth:int): Color list option =   
-        let (b, gameState) = queue.TryDequeue()
+        let (b, steps) = queue.TryDequeue()
+        let gameState = replaySteps(steps|> List.rev)
         if not(b) then
             Thread.Sleep(2)
             solveRec queue visited maxDepth
         else
             if notVisited visited gameState then
-                visited.Add(gameState.squares, ()) |> ignore
-                
+                //visited.Add(gameState.squares, ()) |> ignore
+                visited.TryAdd(gameState.squares, ()) |> ignore
             if (isEndState gameState) then
                 Some (List.rev gameState.stepsTakenRev)
             else
                 if gameState.stepsTakenRev.Length < maxDepth then
                     for s in  prune(gameState, subsequentGameStates gameState, visited) do
-                        queue.Enqueue(s)
+                        queue.Enqueue(s.stepsTakenRev)
                     solveRec queue visited maxDepth
                 else
                     None
@@ -104,7 +113,7 @@
             circles = startState.circles |> List.sortWith compareCircleColors 
             stepsTakenRev = startState.stepsTakenRev
         }
-        queue.Enqueue(gameState)
+        queue.Enqueue(gameState.stepsTakenRev)
         Globals.startState <- gameState
         let cancellationSource = new CancellationTokenSource() 
         let monitor = Async.StartAsTask( async {
@@ -113,7 +122,7 @@
                 let (b, head) = queue.TryPeek()                
                 if b then
 //                    printf "Length of queue %d:2" queue.Count  
-                    System.Console.Write("("+head.stepsTakenRev.Length.ToString()+")")
+                    System.Console.Write("("+head.Length.ToString()+")")
                 System.Console.WriteLine()
                 do! Async.Sleep(2000)
         },  cancellationToken = cancellationSource.Token)
@@ -144,3 +153,6 @@
                                                
         let (b,steps)= Globals.solutions.TryDequeue()
         if b then steps else None
+
+            
+ 

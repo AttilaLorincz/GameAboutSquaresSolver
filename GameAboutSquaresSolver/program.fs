@@ -2,21 +2,13 @@
     open GameAboutSquares.Game
     open GameAboutSquares.Solver
     open GameAboutSquares.Levels
-    
-    let replaySolution (startState) (solution: Color list) : GameState =
-                (startState, solution) 
-                    ||> List.fold (fun acc step -> (
-                                                    let newState = makeMoves acc step
-                                                    printf "%A" newState
-                                                    newState
-                                                   )
-                ) 
+
     
     [<EntryPoint>]
     let main(args) = 
         //Level 15: [Red; Red; Red; Blue; Red; Blue; Red; Red; Blue; Red; Red; Red; ]
         //printfn "%A" sizeof<Color>
-        let startState = level 11
+        let startState = level 15
         let maxDepth = 23
         let stopWatch = System.Diagnostics.Stopwatch.StartNew()
         try 
