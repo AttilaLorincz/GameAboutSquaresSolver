@@ -5,7 +5,7 @@
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
     type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
-    type MutableSet = System.Collections.Generic.SortedList<Square list,unit>
+    type MutableSet = System.Collections.Generic.SortedList<Square list, unit>
     //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
     
     let (<&>) f g = (fun x -> f x && g x)
@@ -141,5 +141,5 @@
         with
             | :? AggregateException as e-> if e.InnerExceptions |> Seq.filter(fun(ie) -> not(ie :? OperationCanceledException)) |> Seq.isEmpty |> not then reraise()
                                                
-        let (b,steps)= Globals.solutions.TryDequeue()
+        let (b,steps) = Globals.solutions.TryDequeue()
         if b then steps else None
