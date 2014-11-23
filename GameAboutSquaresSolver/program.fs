@@ -16,15 +16,14 @@
     let main(args) = 
         //Level 15: [Red; Red; Red; Blue; Red; Blue; Red; Red; Blue; Red; Red; Red; ]
         //printfn "%A" sizeof<Color>
-        let startState = level 11
+        let startState = level 35
         let maxDepth = 23
         let stopWatch = System.Diagnostics.Stopwatch.StartNew()
-        try 
-            match solve startState maxDepth with
+        try match solve startState maxDepth with
             |None -> 
                 printfn "No solution found in depth %d" maxDepth  
                 1
-            |Some solution -> 
+            |Some solution ->
                 printfn "Solution found: " 
                 printfn "%A" solution
                 //replaySolution startState solution |> ignore
