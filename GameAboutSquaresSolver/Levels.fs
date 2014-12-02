@@ -286,3 +286,40 @@
             |35 -> level35
 
             |_-> failwith "Unknown level"
+
+    let hi = level0
+    let hi3 = level1
+    let order2 = level2
+    let push = level3
+    let stairs = level4
+    let stairs2 = level5
+    let lift = level6
+    let presq = level7
+    let sq = level8
+    let nobrainer = level9
+    let crosst = level10
+    let t = level11
+    let rotation = level12
+    let assym = level13
+    let clover = level14
+    let preduced = level15
+    let herewego = level16
+    let reduced = level17
+    let reduced2 = level18
+    let spiral2 = level19
+    let recycle2 = level20
+    let recycle3 = level21
+    let shirt = level22
+    let shuttle = level23
+    let spiral = level24
+    let splinter = level25
+    let elegant = level26
+    let shuttle2 = level27
+    let shirt2 = level28
+    let windmill = level29
+    let paper = level30
+    let shuttle5 = level31
+    let shirtDouble = level32
+    let splinter2 = level33
+    let reduced3 = level34
+    let elegant2 = level35
