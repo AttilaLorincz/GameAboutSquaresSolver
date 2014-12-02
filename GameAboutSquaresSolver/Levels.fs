@@ -1,6 +1,6 @@
 ﻿module GameAboutSquares.Levels
     open GameAboutSquares.Game
-    let startState = {triangles = [];circles = [];squares = [];stepsTakenRev = []}
+    let startState = {triangles=[]; circles=[]; squares=[]; stepsTakenRev=[]}
     
     let level0 = // Min 2
         { startState with
@@ -34,14 +34,14 @@
 
     let level5 = // Min 5
         { startState with
-           circles= [{location=(0y,0y);color=Red}; {location=(1y,1y);color=Blue}; {location=(2y,2y);color=Black}] 
-           squares= [{location=(-1y,0y);color=Blue;direction=Right}; {location=(0y,-1y);color=Red;direction=Down}; {location=(1y,0y);color=Black;direction=Down}];
+            circles= [{location=(0y,0y);color=Red}; {location=(1y,1y);color=Blue}; {location=(2y,2y);color=Black}] 
+            squares= [{location=(-1y,0y);color=Blue;direction=Right}; {location=(0y,-1y);color=Red;direction=Down}; {location=(1y,0y);color=Black;direction=Down}];
         }
 
     let level6 = // Min 8
         { startState with
-           circles= [{location=(0y,0y);color=Black}; {location=(1y,1y);color=Blue}; {location=(2y,3y);color=Red}] 
-           squares= [{location=(2y,2y);color=Black;direction=Up}; {location=(3y,0y);color=Red;direction=Down}; {location=(4y,1y);color=Blue;direction=Left}];
+            circles= [{location=(0y,0y);color=Black}; {location=(1y,1y);color=Blue}; {location=(2y,3y);color=Red}] 
+            squares= [{location=(2y,2y);color=Black;direction=Up}; {location=(3y,0y);color=Red;direction=Down}; {location=(4y,1y);color=Blue;direction=Left}];
         }
 
     let level7 = // Min 6
@@ -233,10 +233,18 @@
         }
 
     let level34 = // Min 33
-        None
+        { startState with
+            triangles= [{location=(0y,0y);direction=Down}; {location=(3y,0y);direction=Left}; {location=(2y,2y);direction=Up}; {location=(0y,1y);direction=Right}];
+            circles=   [{location=(1y,2y);color=Black}; {location=(2y,1y);color=Red}; {location=(3y,2y);color=Blue};] 
+            squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Red;direction=Right}; {location=(3y,0y);color=Blue;direction=Left}];
+        }
 
     let level35 = // Min 39
-        None
+       { startState with
+            triangles= [{location=(1y,0y);direction=Down}; {location=(4y,1y);direction=Left}; {location=(3y,4y);direction=Up}; {location=(0y,3y);direction=Right}];
+            circles=   [{location=(0y,2y);color=Black}; {location=(0y,3y);color=Red}; {location=(0y,4y);color=Orange};] 
+            squares=   [{location=(0y,4y);color=Orange;direction=Right}; {location=(1y,4y);color=Red;direction=Right}; {location=(2y,4y);color=Black;direction=Right}];
+        }
 
     let level n = 
         match n with
@@ -274,7 +282,7 @@
             |31 -> level31
             |32 -> level32
             |33 -> level33
-//            |34 -> level34
-//            |35 -> level35
+            |34 -> level34
+            |35 -> level35
 
             |_-> failwith "Unknown level"

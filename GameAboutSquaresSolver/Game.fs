@@ -39,9 +39,23 @@
         else if c1 = c2 then 0
         else 1
     
+    (* 
+    // Alternative comparison makes isEndState colorblind
+    // any square is good on any circle
+    // Useful for solving the second half of levels 
+    // that can be decomposed into two parts: 1. reorder squares in a loop 2. move to circles
+    let compareLocations(l1:Location)(l2:Location) : int =
+        if l1 < l2 then -1
+        else if l1 = l2 then 0
+        else 1
+    let compareCircleLocations(c1:Circle)(c2:Circle) : int =
+      compareLocations c1.location c2.location
+    let compareSquareLocations(c1:Square)(c2:Square) : int =
+      compareLocations c1.location c2.location
+    *)
+
     let compareCircleColors(c1:Circle)(c2:Circle) : int =
       compareColors c1.color c2.color
-
     let compareSquareColors(s1:Square)(s2:Square) : int =
       compareColors s1.color s2.color
     
@@ -50,8 +64,8 @@
         // The order of items in the lists does not matter so we should sort before comparing or use order-agnostic comparison, but
         // for performance reason exploit the fact that we sort the squares and circles at the beginning and then keep their order
         compareSequences 
-            (gameState.squares (*|> List.sortWith compareSquareColors  *) |> List.map (fun x->x.location))
-            (gameState.circles (*|> List.sortWith compareCircleColors  *) |> List.map (fun x->x.location))
+            (gameState.squares (* |> List.sortWith compareSquareLocations  *) |>  List.map (fun x->x.location))
+            (gameState.circles (* |> List.sortWith compareCircleLocations  *) |>  List.map (fun x->x.location))
     
     //  Given the currnt state and the color of the square to move returns the state with that move mad
     let makeMoves (gameState : GameState)(color : Color) : GameState = 
@@ -88,9 +102,9 @@
             squares = moves squareToMove squareToMove.direction gameState;
         } 
     
-    // Returns the sequence of game states reachable from the current state by making possible moves
+    // Returns the sequence of game states reachable from the current state by making a valid move
     let subsequentGameStates gameState : GameState seq =
-        seq { for moveSq in gameState.squares do yield  { (makeMoves gameState moveSq.color) with stepsTakenRev = moveSq.color :: gameState.stepsTakenRev 
-            }
+        seq { 
+            for moveSq in gameState.squares do yield  { (makeMoves gameState moveSq.color) with stepsTakenRev = moveSq.color :: gameState.stepsTakenRev }
         }
  

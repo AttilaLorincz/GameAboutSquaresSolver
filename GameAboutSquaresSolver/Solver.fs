@@ -38,7 +38,7 @@
         match (bounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = sbyte gameState.squares.Length 
-            //let n = 1         
+            //let n = 1y
             let outOfBoundsSquare = 
                 gameState.squares  |>
                     List.tryFind ( fun sq->
@@ -57,7 +57,7 @@
         match (stricterbounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = sbyte gameState.squares.Length
-            //let n = 1         
+            //let n = 1y
             let outOfBoundsSquare = 
                 gameState.squares  |>
                     List.tryFind ( fun sq->
