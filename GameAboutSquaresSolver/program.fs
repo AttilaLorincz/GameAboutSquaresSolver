@@ -15,7 +15,7 @@ let main (args) =
     let levelNumber = 
         if args.Length > 0 then System.Int32.Parse(args.[0])
         else 
-            System.Console.WriteLine("Select a level to solve (1-35)")
+            System.Console.WriteLine("Select a level to solve (0-35)")
             System.Int32.Parse(System.Console.ReadLine())
     
     let maxDepth = 
