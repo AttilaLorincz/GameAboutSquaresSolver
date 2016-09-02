@@ -22,10 +22,13 @@
         | Green
         | Gray
         | Purple
-    
+
+    type IColored =
+        abstract Color: Color
+
     // Components of the game state
-    type Square =    {location: Location; color:Color; direction: Direction}
-    type Circle =    {location: Location; color:Color}
+    type Square =    {location: Location; color:Color; direction: Direction} interface IColored with member x.Color = x.color
+    type Circle =    {location: Location; color:Color} interface IColored with member x.Color = x.color
     type Triangle =  {location: Location; direction:Direction}
     
     // The complex data type describing a current state and the moves made to get here from the starting state
@@ -54,10 +57,8 @@
       compareLocations c1.location c2.location
     *)
 
-    let compareCircleColors(c1:Circle)(c2:Circle) : int =
-      compareColors c1.color c2.color
-    let compareSquareColors(s1:Square)(s2:Square) : int =
-      compareColors s1.color s2.color
+    let compareColoredEntityColors(c1:IColored)(c2:IColored) : int =
+      compareColors c1.Color c2.Color
     
     // Game mechanics
     let isEndState gameState =
@@ -67,7 +68,7 @@
             (gameState.squares (* |> List.sortWith compareSquareLocations  *) |>  List.map (fun x->x.location))
             (gameState.circles (* |> List.sortWith compareCircleLocations  *) |>  List.map (fun x->x.location))
     
-    //  Given the currnt state and the color of the square to move returns the state with that move mad
+    //  Given the current state and the color of the square to move returns the state with that move made
     let makeMoves (gameState : GameState)(color : Color) : GameState = 
         let rec moves (moveSq : Square)(direction : Direction) (gameState : GameState) =
             let moveSquare (square:Square)(direction:Direction) : Square = {   
