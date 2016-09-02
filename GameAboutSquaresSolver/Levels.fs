@@ -124,7 +124,7 @@
         { startState with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,1y);direction=Right}; {location=(2y,2y);direction=Up}; {location=(3y,0y);direction=Left}];
             circles=   [{location=(1y,1y);color=Red}; {location=(2y,1y);color=Black}; {location=(3y,1y);color=Blue}] 
-            squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Red;direction=Right}; {location=(0y,3y);color=Blue;direction=Left}];
+            squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Red;direction=Right}; {location=(3y,0y);color=Blue;direction=Left}];
         }
 
     let level19 = // Min 43
