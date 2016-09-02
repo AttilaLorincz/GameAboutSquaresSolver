@@ -1,246 +1,246 @@
 ﻿module GameAboutSquares.Levels
     open GameAboutSquares.Game
-    let startState = {triangles=[]; circles=[]; squares=[]; stepsTakenRev=[]}
+    let emptyPlayingField = {triangles=[]; circles=[]; squares=[]; stepsTakenRev=[]}
     
     let level0 = // Min 2
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,2y);color=Red}] 
             squares= [{location=(0y,0y);color=Red;direction=Down}]
         }
 
     let level1 = // Min 2
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,2y);color=Red}; {location=(0y,1y);color=Blue}] 
             squares= [{location=(0y,0y);color=Blue;direction=Down}; {location=(0y,3y);color=Red;direction=Up}];
         }
 
     let level2 = // Min 6
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,0y);color=Blue}; {location=(1y,0y);color=Red}; {location=(0y,1y);color=Black}] 
             squares= [{location=(-1y,0y);color=Red;direction=Right}; {location=(0y,2y);color=Blue;direction=Up}; {location=(2y,1y);color=Black;direction=Left}];
         }
 
     let level3 = // Min 9
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,3y);color=Red}; {location=(2y,5y);color=Blue};] 
             squares= [{location=(2y,0y);color=Blue;direction=Down}; {location=(4y,2y);color=Red;direction=Left}];
         }
 
     let level4 = // Min 5
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,0y);color=Red}; {location=(1y,1y);color=Black}; {location=(2y,2y);color=Blue}] 
             squares= [{location=(-1y,0y);color=Blue;direction=Right}; {location=(0y,-1y);color=Red;direction=Down}; {location=(1y,0y);color=Black;direction=Down}];
         }
 
     let level5 = // Min 5
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,0y);color=Red}; {location=(1y,1y);color=Blue}; {location=(2y,2y);color=Black}] 
             squares= [{location=(-1y,0y);color=Blue;direction=Right}; {location=(0y,-1y);color=Red;direction=Down}; {location=(1y,0y);color=Black;direction=Down}];
         }
 
     let level6 = // Min 8
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,0y);color=Black}; {location=(1y,1y);color=Blue}; {location=(2y,3y);color=Red}] 
             squares= [{location=(2y,2y);color=Black;direction=Up}; {location=(3y,0y);color=Red;direction=Down}; {location=(4y,1y);color=Blue;direction=Left}];
         }
 
     let level7 = // Min 6
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,2y);direction=Right}; {location=(2y,2y);direction=Up} ] 
             circles=   [{location=(2y,0y);color=Blue} ] 
             squares=   [{location=(0y,0y);color=Blue;direction=Down} ] 
         }
 
     let level8 = // Min 9
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,2y);direction=Right}; {location=(2y,2y);direction=Up} ] 
             circles=   [{location=(2y,0y);color=Orange}; {location=(3y,0y);color=Black}] 
             squares=   [{location=(0y,0y);color=Orange;direction=Down}; {location=(0y,2y);color=Black;direction=Right}] 
         }
     
     let level9 = // Min 5
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,1y);direction=Right}; {location=(2y,1y);direction=Up}; {location=(3y,1y);direction=Left}] 
             circles=   [{location=(1y,0y);color=Orange}; {location=(2y,0y);color=Blue}] 
             squares=   [{location=(0y,1y);color=Orange;direction=Right}; {location=(2y,1y);color=Blue;direction=Up}] 
         }
 
     let level10 = // Min 8
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Right}];
             circles=   [{location=(-2y,0y);color=Black}; {location=(-1y,0y);color=Red}; {location=(1y,0y);color=Blue}];
             squares=   [{location=(0y,2y);color=Black;direction=Up}; {location=(0y,-2y);color=Red;direction=Down}; {location=(2y,0y);color=Blue;direction=Left};];
         }
 
     let level11 = // Min 14?
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(2y,0y);direction=Down}];
             circles=   [{location=(1y,2y);color=Red}; {location=(2y,2y);color=Blue}; {location=(3y,2y);color=Black}];
             squares=   [{location=(0y,0y);color=Red;direction=Right}; {location=(4y,0y);color=Blue;direction=Left}; {location=(2y,4y);color=Black;direction=Up};];
         } 
 
     let level12 = // Min 9
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,-1y);direction=Down}; {location=(2y,0y);direction=Left}];
             circles=   [{location=(0y,0y);color=Black}; {location=(0y,1y);color=Orange}];
             squares=   [{location=(-1y,1y);color=Orange;direction=Right}; {location=(1y,2y);color=Black;direction=Up}];
         } 
 
     let level13 = // Min 10
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,-1y);direction=Down}];
             circles=   [{location=(0y,0y);color=Blue}; {location=(-1y,2y);color=Orange}; {location=(0y,-2y);color=Black}];
             squares=   [{location=(0y,-1y);color=Black;direction=Down}; {location=(2y,1y);color=Orange;direction=Left}; {location=(1y,3y);color=Blue;direction=Up}];
         } 
 
     let level14 = // Min 9
-        { startState with
+        { emptyPlayingField with
             circles= [{location=(0y,0y);color=Red}; {location=(1y,1y);color=Blue}; {location=(2y,0y);color=Orange}; {location=(2y,2y);color=Black}] 
             squares= [{location=(1y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Orange;direction=Right}; {location=(2y,1y);color=Red;direction=Left}; {location=(1y,2y);color=Blue;direction=Up}];
         }
  
     let level15 = // Min 13
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(3y,0y);direction=Left}; {location=(0y,1y);direction=Right}];
             circles=   [{location=(1y,1y);color=Red}; {location=(1y,2y);color=Blue} ] 
             squares=   [{location=(0y,0y);color=Red;direction=Down}; {location=(2y,2y);color=Blue;direction=Up}];
         }
     
     let level16 =  // Min 14
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Right}; {location=(2y,0y);direction=Down}; {location=(2y,1y);direction=Left}; {location=(1y,2y);direction=Up}];
             circles=   [{location=(0y,1y);color=Red}; {location=(3y,1y);color=Blue} ] 
             squares=   [{location=(0y,0y);color=Red;direction=Right}; {location=(2y,1y);color=Blue;direction=Left}];
         }
 
     let level17 =  // Min 20
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,1y);direction=Right}; {location=(2y,2y);direction=Up}; {location=(3y,0y);direction=Left}];
             circles=   [{location=(1y,1y);color=Red}; {location=(2y,1y);color=Black}; {location=(3y,1y);color=Blue}] 
             squares=   [{location=(0y,0y);color=Red;direction=Down}; {location=(0y,1y);color=Black;direction=Right}; {location=(3y,0y);color=Blue;direction=Left}];
         }
 
     let level18 = // Min 18
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,1y);direction=Right}; {location=(2y,2y);direction=Up}; {location=(3y,0y);direction=Left}];
             circles=   [{location=(1y,1y);color=Red}; {location=(2y,1y);color=Black}; {location=(3y,1y);color=Blue}] 
             squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Red;direction=Right}; {location=(3y,0y);color=Blue;direction=Left}];
         }
 
     let level19 = // Min 43
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,3y);direction=Right}; {location=(3y,3y);direction=Up}; {location=(3y,1y);direction=Left}; {location=(1y,1y);direction=Down}; {location=(1y,2y);direction=Right}; {location=(2y,2y);direction=Up}];
             circles=   [{location=(2y,-3y);color=Red}; {location=(2y,1y);color=Black}; {location=(2y,-1y);color=Blue}] 
             squares=   [{location=(0y,0y);color=Red;direction=Down}; {location=(1y,1y);color=Blue;direction=Down}; {location=(2y,2y);color=Black;direction=Up}];
         }
 
     let level20 = // Min 38
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(-1y,-1y);direction=Down}; {location=(1y,-1y);direction=Left}; {location=(-1y,1y);direction=Right}; {location=(1y,1y);direction=Up}; {location=(-1y,3y);direction=Up};];
             circles=   [{location=(-1y, 0y);color=Black}; {location=(1y,0y);color=Gray}; {location=(0y,1y);color=Purple}; {location=(0y,-1y);color=Green}] 
             squares=   [{location=(-1y,-1y);color=Black;direction=Down}; {location=(-1y,1y);color=Green;direction=Right}; {location=(1y,1y);color=Gray;direction=Up}; {location=(1y,-1y);color=Purple;direction=Left}];
         }
 
     let level21 = // Min 42
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,2y);direction=Up}; {location=(0y,3y);direction=Down}; {location=(0y,4y);direction=Right}; {location=(2y,4y);direction=Up}; {location=(0y,4y);direction=Left}];
             circles=   [{location=(0y,1y);color=Gray}; {location=(2y,1y);color=Red}; {location=(2y,2y);color=Green}; {location=(2y,3y);color=Orange}] 
             squares=   [{location=(0y,0y);color=Gray;direction=Down}; {location=(0y,4y);color=Red;direction=Right}; {location=(2y,0y);color=Orange;direction=Left}; {location=(2y,4y);color=Green;direction=Up}];
         }
 
     let level22 = // Min 17
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(-1y,2y);direction=Right}; {location=(0y,4y);direction=Up}; {location=(3y,3y);direction=Left}];
             circles=   [{location=(1y,0y);color=Red}] 
             squares=   [{location=(0y,0y);color=Blue;direction=Down}; {location=(-1y,2y);color=Red;direction=Right}; {location=(3y,1y);color=Black;direction=Down}];
         }
 
     let level23 = // Min 17
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(-2y,2y);direction=Right}; {location=(2y,1y);direction=Left}; {location=(0y,4y);direction=Up}];
             circles=   [{location=(-1y,3y);color=Red}; {location=(0y,3y);color=Blue}; {location=(1y,3y);color=Black}] 
             squares=   [{location=(-1y,0y);color=Blue;direction=Down}; {location=(-2y,2y);color=Black;direction=Right}; {location=(2y,1y);color=Red;direction=Left}];
         }
 
     let level24 = // Min 23
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(0y,3y);direction=Right}; {location=(3y,3y);direction=Up}; {location=(3y,1y);direction=Left}; {location=(1y,1y);direction=Down}; {location=(1y,2y);direction=Right}; {location=(2y,2y);direction=Up}];
             circles=   [{location=(0y,-2y);color=Red}; {location=(1y,-1y);color=Blue}; {location=(2y,0y);color=Black}] 
             squares=   [{location=(0y,0y);color=Red;direction=Down}; {location=(1y,1y);color=Blue;direction=Down}; {location=(2y,2y);color=Black;direction=Up}];
         }
 
     let level25 = // Min 24
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(3y,0y);direction=Left}; {location=(2y,0y);direction=Right}; {location=(2y,2y);direction=Up}];
             circles=   [{location=(0y,-1y);color=Red}; {location=(1y,-1y);color=Blue}; {location=(2y,-1y);color=Black}] 
             squares=   [{location=(0y,0y);color=Blue;direction=Down}; {location=(2y,0y);color=Black;direction=Right}; {location=(2y,2y);color=Red;direction=Up}];
         }
 
     let level26 = // Min 24
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(1y,0y);direction=Down}; {location=(3y,1y);direction=Left}; {location=(0y,2y);direction=Right}; {location=(2y,2y);direction=Up}];
             circles=   [{location=(0y,1y);color=Blue}; {location=(2y,0y);color=Orange}; {location=(3y,2y);color=Black}; {location=(1y,3y);color=Red}];
             squares=   [{location=(1y,0y);color=Orange;direction=Down}; {location=(3y,1y);color=Black;direction=Left}; {location=(0y,2y);color=Blue;direction=Right}; {location=(2y,3y);color=Red;direction=Up}];
         }
 
     let level27 = // Min 28
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,2y);direction=Right}; {location=(3y,0y);direction=Down}; {location=(3y,4y);direction=Up}; {location=(4y,1y);direction=Left}];
             circles=   [{location=(1y,3y);color=Red}; {location=(2y,3y);color=Blue}; {location=(3y,3y);color=Black}] 
             squares=   [{location=(1y,0y);color=Black;direction=Down}; {location=(4y,1y);color=Blue;direction=Left}; {location=(0y,2y);color=Red;direction=Right}];
         }
 
     let level28 = // Min 18
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(1y,0y);direction=Down}; {location=(0y,2y);direction=Right}; {location=(1y,4y);direction=Up}; {location=(4y,3y);direction=Left}];
             circles=   [{location=(0y,1y);color=Blue}] 
             squares=   [{location=(1y,0y);color=Blue;direction=Down}; {location=(2y,0y);color=Red;direction=Right}; {location=(4y,1y);color=Black;direction=Down}];
         }
 
     let level29 = // Min 22
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,-2y);direction=Down}; {location=(0y,2y);direction=Up}; {location=(2y,0y);direction=Right}];
             circles=   [{location=(-1y,0y);color=Orange}; {location=(0y,-1y);color=Red}; {location=(1y,0y);color=Blue}; {location=(0y,1y);color=Black}] 
             squares=   [{location=(-2y,0y);color=Red;direction=Right}; {location=(0y,-2y);color=Blue;direction=Down}; {location=(2y,0y);color=Black;direction=Left}; {location=(0y,2y);color=Orange;direction=Up}];
         }
 
     let level30 = // Min 41
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(3y,0y);direction=Left}; {location=(0y,3y);direction=Right}; {location=(2y,3y);direction=Up}];
             circles=   [{location=(1y,0y);color=Black}; {location=(0y,1y);color=Blue}; {location=(0y,2y);color=Red}] 
             squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,3y);color=Red;direction=Right}; {location=(2y,3y);color=Blue;direction=Up}];
         }
 
     let level31 = // Min 21
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,-2y);direction=Down}; {location=(-1y,-1y);direction=Right}; {location=(1y,0y);direction=Left}; {location=(0y,2y);direction=Up}];
             circles=   [{location=(-2y,0y);color=Blue}; {location=(0y,0y);color=Red}; {location=(2y,0y);color=Black}] 
             squares=   [{location=(0y,-2y);color=Blue;direction=Down}; {location=(-1y,-1y);color=Black;direction=Right}; {location=(1y,0y);color=Red;direction=Left}];
         }
 
     let level32 = // Min 33
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(-1y,-1y);direction=Right}; {location=(1y,0y);direction=Left}; {location=(0y,2y);direction=Up}];
             circles=   [{location=(-2y,0y);color=Blue}; {location=(0y,0y);color=Red}; {location=(2y,0y);color=Black}] 
             squares=   [{location=(0y,-2y);color=Blue;direction=Down}; {location=(-1y,-1y);color=Black;direction=Right}; {location=(1y,0y);color=Red;direction=Left}];
         }
 
     let level33 = // Min 45
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(-1y,2y);direction=Right}; {location=(3y,3y);direction=Left}; {location=(0y,4y);direction=Up}];
             circles=   [{location=(-1y,1y);color=Blue}; {location=(0y,1y);color=Red};] 
             squares=   [{location=(-1y,2y);color=Red;direction=Right}; {location=(0y,0y);color=Blue;direction=Down}; {location=(3y,1y);color=Black;direction=Down}];
         }
 
     let level34 = // Min 33
-        { startState with
+        { emptyPlayingField with
             triangles= [{location=(0y,0y);direction=Down}; {location=(3y,0y);direction=Left}; {location=(2y,2y);direction=Up}; {location=(0y,1y);direction=Right}];
             circles=   [{location=(1y,2y);color=Black}; {location=(2y,1y);color=Red}; {location=(3y,2y);color=Blue};] 
             squares=   [{location=(0y,0y);color=Black;direction=Down}; {location=(0y,1y);color=Red;direction=Right}; {location=(3y,0y);color=Blue;direction=Left}];
         }
 
     let level35 = // Min 39
-       { startState with
+       { emptyPlayingField with
             triangles= [{location=(1y,0y);direction=Down}; {location=(4y,1y);direction=Left}; {location=(3y,4y);direction=Up}; {location=(0y,3y);direction=Right}];
             circles=   [{location=(0y,2y);color=Black}; {location=(0y,3y);color=Red}; {location=(0y,4y);color=Orange};] 
             squares=   [{location=(0y,4y);color=Orange;direction=Right}; {location=(1y,4y);color=Red;direction=Right}; {location=(2y,4y);color=Black;direction=Right}];
