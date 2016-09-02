@@ -28,6 +28,7 @@
         List.append 
                 (startState.triangles |> List.map (fun x->x.location))
                 (startState.circles   |> List.map (fun x->x.location)))
+    
     let bounds  = lazy (
             locationsOfTrianglesAndCirclesAndSquares.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
@@ -44,15 +45,16 @@
                     List.tryFind ( fun sq->
                         match sq.location with 
                             |(x, y) when x > maxx + n-1y || x < minx - n+1y || y > maxy + n-1y || y < miny - n+1y -> true
-                            //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
                             |_ ->false
                         )
             outOfBoundsSquare.IsNone
+    
     let stricterbounds  = lazy (
             locationsOfTrianglesAndCircles.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (SByte.MaxValue, SByte.MaxValue, SByte.MinValue, SByte.MinValue)
-        )
+    )
+
     let allSquaresInsideStricterBounds gameState =
         match (stricterbounds.Value) with
         | (minx, miny, maxx, maxy) ->
@@ -63,7 +65,6 @@
                     List.tryFind ( fun sq->
                         match sq.location with 
                             |(x, y) when x > maxx + n-1y || x < minx - n+1y || y > maxy + n-1y || y < miny - n+1y -> true
-                            //  |(x, y) when x > maxx || x < minx || y > maxy || y < miny - 1 -> true // level11
                             |_ ->false
                         )
             outOfBoundsSquare.IsNone

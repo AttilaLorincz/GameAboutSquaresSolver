@@ -93,7 +93,7 @@
                             )
             let otherSquare = nextSquares |> List.tryFind(fun other -> (not(movedSquare.color = other.color) && other.location = movedSquare.location))
             match otherSquare with
-                |Some _-> moves otherSquare.Value direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
+                |Some otherSquareValue -> moves otherSquareValue direction { stepsTakenRev = gameState.stepsTakenRev; triangles = gameState.triangles; circles = gameState.circles; squares = nextSquares}
                 |None -> nextSquares
 
         let squareToMove = gameState.squares |> List.find(fun s -> s.color = color)        
