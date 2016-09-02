@@ -5,7 +5,7 @@
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
     type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
-    type MutableSet = System.Collections.Generic.SortedList<Square list, unit>
+    type MutableSet = System.Collections.Generic.HashSet<Square list>
     //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
     
     let (<&>) f g = (fun x -> f x && g x)
@@ -32,7 +32,7 @@
             locationsOfTrianglesAndCirclesAndSquares.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (SByte.MaxValue, SByte.MaxValue, SByte.MinValue, SByte.MinValue)
-        )
+    )
 
     let allSquaresInsideBounds gameState =
         match (bounds.Value) with
@@ -69,7 +69,7 @@
             outOfBoundsSquare.IsNone
 
     let notVisited (visited:MutableSet) (gameState: GameState)  =
-        not(visited.ContainsKey(gameState.squares))
+        not(visited.Contains(gameState.squares))
 
     let prune (currentState: GameState, gameStates: GameState seq, visited: MutableSet): GameState seq = 
         gameStates 
@@ -82,7 +82,7 @@
             solveRec queue visited maxDepth
         else
             if notVisited visited gameState then
-                visited.Add(gameState.squares, ()) |> ignore
+                visited.Add(gameState.squares) |> ignore
                 
             if (isEndState gameState) then
                 Some (List.rev gameState.stepsTakenRev)
@@ -99,8 +99,8 @@
         let visited = MutableSet()
         let gameState = {
             triangles = startState.triangles;
-            squares = startState.squares |> List.sortWith compareSquareColors  
-            circles = startState.circles |> List.sortWith compareCircleColors 
+            squares = startState.squares |> List.sortWith compareColoredEntityColors  
+            circles = startState.circles |> List.sortWith compareColoredEntityColors 
             stepsTakenRev = startState.stepsTakenRev
         }
         queue.Enqueue(gameState)
