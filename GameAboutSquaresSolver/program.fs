@@ -34,7 +34,7 @@ let inputFromCommandLine (args : string []) =
     solveLevel levelNumber maxDepth
 
 let rec repeatedInputFromConsole (lastResult : int) : int = 
-    Console.WriteLine("Select a level to solve (0-35) or 'q' to quit")
+    printfn "Select a level to solve (0-35) or 'q' to quit"
     let readLine = Console.ReadLine()
     if (String.IsNullOrWhiteSpace(readLine) || readLine = "q" || readLine = "Q") then lastResult
     else repeatedInputFromConsole (solveLevel (Int32.Parse(readLine)) defaultMaxDepth)

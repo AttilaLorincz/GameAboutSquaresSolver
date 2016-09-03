@@ -35,9 +35,9 @@
     type GameState = {squares: Square list; triangles: Triangle list; circles: Circle list; stepsTakenRev: Color list}
     
     // Utility functions
-    let compareSequences s1 s2 = (s1, s2) ||> Seq.forall2 (=)
+    let private compareSequences s1 s2 = (s1, s2) ||> Seq.forall2 (=)
 
-    let compareColors(c1:Color)(c2:Color) : int =
+    let private compareColors(c1:Color)(c2:Color) : int =
         if c1 < c2 then -1
         else if c1 = c2 then 0
         else 1

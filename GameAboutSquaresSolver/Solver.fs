@@ -4,17 +4,17 @@
     open GameAboutSquares.Game
       
     //type MutableQueue = System.Collections.Generic.Queue<GameState>
-    type MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
-    type MutableSet = System.Collections.Generic.HashSet<Square list>
+    type private MutableQueue = System.Collections.Concurrent.ConcurrentQueue<GameState>
+    type private MutableSet = System.Collections.Generic.HashSet<Square list>
     //type MutableSet = System.Collections.Concurrent.ConcurrentDictionary<Square list, unit>
     
-    let (<&>) f g = (fun x -> f x && g x)
+    let private (<&>) f g = (fun x -> f x && g x)
     
-    module Globals = 
+    module private Globals = 
         let mutable startState : GameState = {squares=[];triangles=[];circles=[];stepsTakenRev=[]}
         let solutions = System.Collections.Concurrent.ConcurrentQueue<Color list option>()
     
-    let locationsOfTrianglesAndCirclesAndSquares = lazy ( 
+    let private locationsOfTrianglesAndCirclesAndSquares = lazy ( 
         let startState = Globals.startState
         List.append 
             (List.append 
@@ -23,19 +23,19 @@
             (startState.squares |> List.map (fun sq->sq.location))
     )
 
-    let locationsOfTrianglesAndCircles = lazy ( 
+    let private locationsOfTrianglesAndCircles = lazy ( 
         let startState = Globals.startState
         List.append 
                 (startState.triangles |> List.map (fun x->x.location))
                 (startState.circles   |> List.map (fun x->x.location)))
     
-    let bounds  = lazy (
+    let private bounds  = lazy (
             locationsOfTrianglesAndCirclesAndSquares.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (SByte.MaxValue, SByte.MaxValue, SByte.MinValue, SByte.MinValue)
     )
 
-    let allSquaresInsideBounds gameState =
+    let private allSquaresInsideBounds gameState =
         match (bounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = sbyte gameState.squares.Length 
@@ -49,13 +49,13 @@
                         )
             outOfBoundsSquare.IsNone
     
-    let stricterbounds  = lazy (
+    let private stricterbounds  = lazy (
             locationsOfTrianglesAndCircles.Value |> List.fold (fun (mx,my,Mx,My) (ax,ay) -> 
                     min mx ax, min my ay,
                     max Mx ax, max My ay) (SByte.MaxValue, SByte.MaxValue, SByte.MinValue, SByte.MinValue)
     )
 
-    let allSquaresInsideStricterBounds gameState =
+    let private allSquaresInsideStricterBounds gameState =
         match (stricterbounds.Value) with
         | (minx, miny, maxx, maxy) ->
             let n = sbyte gameState.squares.Length
@@ -69,14 +69,14 @@
                         )
             outOfBoundsSquare.IsNone
 
-    let notVisited (visited:MutableSet) (gameState: GameState)  =
+    let private notVisited (visited:MutableSet) (gameState: GameState)  =
         not(visited.Contains(gameState.squares))
 
-    let prune (currentState: GameState, gameStates: GameState seq, visited: MutableSet): GameState seq = 
+    let private prune (currentState: GameState, gameStates: GameState seq, visited: MutableSet): GameState seq = 
         gameStates 
         |> Seq.filter (notVisited(visited) <&> if allSquaresInsideStricterBounds currentState then allSquaresInsideStricterBounds else allSquaresInsideBounds)
 
-    let rec solveRec (queue:MutableQueue) (visited:MutableSet) (maxDepth:int): Color list option =   
+    let rec private solveRec (queue:MutableQueue) (visited:MutableSet) (maxDepth:int): Color list option =   
         let (b, gameState) = queue.TryDequeue()
         if not(b) then
             Thread.Sleep(2)
@@ -129,7 +129,6 @@
                                              computation = worker, 
                                              continuation=(fun solution -> 
                                                 if solution.IsSome then 
-                                                    //printf "%A" solution; 
                                                     Globals.solutions.Enqueue(solution);
                                                     cancellationSource.Cancel(); 
                                                 else 
